@@ -1,7 +1,11 @@
-from utils.time_run import log_time
+import os
+import sys
+#Add the dir above day run as path for easy import
+root_folder = os.path.abspath(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(root_folder)
 from utils.loc import linecount
-from utils.support import logger, console
 import utils.support as support
+from utils.support import logger, console, log_time
 
 #Set day/year global variables
 DAY:int = 1 #datetime.now().day

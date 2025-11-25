@@ -3,11 +3,10 @@ import sys
 #Add the dir above day run as path for easy import
 root_folder = os.path.abspath(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(root_folder)
-from collections import deque
 from utils import support
 from utils.loc import linecount
-from utils.support import logger, console, log_time
 from dataclasses import dataclass
+from utils.support import logger, console, log_time
 
 #Set day/year global variables
 DAY:int = 3 #datetime.now().day
@@ -21,15 +20,16 @@ class Point():
         self.x += x
         self.y += y
 
-def parse_input(data:list):
+def map_trees(dataset:list):
     trees = set()
-    for x in range(len(data)):
-        for y in range(len(data[x])):
-            if data[x][y] == "#":
+    for x in range(len(dataset)):
+        for y in range(len(dataset[x])):
+            if dataset[x][y] == "#":
                 trees.add((x, y))
     return trees
     
 def onboard(point:dataclass) -> bool:
+    global data
     x = point.x
     y = point.y
     height, width  = len(data), len(data[0])
@@ -40,7 +40,7 @@ def onboard(point:dataclass) -> bool:
     else:
         return True
 
-def problemsolver(data:list, part:int)->int:
+def problemsolver(dataset:list, part:int)->int:
     def walk_forest(treemap:list[set]):
         pos = Point()
         step = (1,3)
@@ -54,7 +54,7 @@ def problemsolver(data:list, part:int)->int:
             else:
                 walking = False
         return sonnybono
-    treemap = parse_input(data)
+    treemap = map_trees(dataset)
     trees = walk_forest(treemap)
     return trees
 
