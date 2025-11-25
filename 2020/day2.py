@@ -3,13 +3,10 @@ import sys
 #Add the dir above day run as path for easy import
 root_folder = os.path.abspath(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(root_folder)
-
-from utils.time_run import log_time
-from utils.loc import linecount
-from utils.support import logger, console
-from utils import support
-from itertools import combinations
 from collections import deque
+from utils import support
+from utils.loc import linecount
+from utils.support import logger, console, log_time
 
 #Set day/year global variables
 DAY:int = 2 #datetime.now().day
@@ -98,18 +95,17 @@ def main():
         exit()
     else:
         logger.info(f"part B possible solution: \n{resultB}\n")
-    support.submit_answer(DAY, YEAR, 2, resultB)
+    # support.submit_answer(DAY, YEAR, 2, resultB)
 
     #Recurse lines of code
     LOC = linecount(f'./{YEAR}/day{DAY}.py')
     logger.info(f"Lines of code: {LOC}")
 
     #Delete the cache after submission
-    support._877_cache_now(".cache", True)
+    # support._877_cache_now(".cache", True)
     
 if __name__ == "__main__":
     main()
-
 
 ########################################################
 #Notes

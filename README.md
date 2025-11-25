@@ -1,4 +1,4 @@
-# 🎄 Advent of Code Monorepo 🎄
+# 🎄 Advent of Code 🎄
 
 ## 🎄 Summary 🎄
 
@@ -40,20 +40,12 @@ Each year is self contained to represent different years tools and / or files.  
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Debug with Fixed Arg",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal",
-            // "args": ["day"]
-        },
-        {
             "name": "Python: Run with Runtime Arg",
             "type": "python",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            // "args": ["day"]
+            // ["day"]
         }
     ]
 }

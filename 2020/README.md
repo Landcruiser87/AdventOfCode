@@ -27,5 +27,5 @@ If you're using VSCode your env can be tied to the year you're using by changing
 
 | Day | Stars | Solution | Name | Speed Part A | Speed Part B | LOC |
 | --- | ----- | ---- | ---------------------------------------------------------------- | ----- | ----- | --- | 
-| 01  | ⭐⭐ | [Day1](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day1.py) |[Report Repair](https://adventofcode.com/2020/day/1) | 405.830 ms | 791.667 ms | 76 |
-| 02  | ⭐⭐ | [Day2](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day2.py) |[Password Philosophy](https://adventofcode.com/2020/day/2) | 44.929 ms | 32.924 ms | 82 |
+| 01  | ⭐⭐ | [Day1](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day1.py) |[Report Repair](https://adventofcode.com/2020/day/1) | 405.83 ms | 791.67 ms | 76 |
+| 02  | ⭐⭐ | [Day2](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day2.py) |[Password Philosophy](https://adventofcode.com/2020/day/2) | 44.93 ms | 34.57 ms | 80 |
