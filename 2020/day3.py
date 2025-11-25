@@ -3,6 +3,7 @@ import sys
 #Add the dir above day run as path for easy import
 root_folder = os.path.abspath(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(root_folder)
+import numpy as np
 from utils import support
 from utils.loc import linecount
 from dataclasses import dataclass
@@ -40,23 +41,30 @@ def onboard(point:dataclass) -> bool:
     else:
         return True
 
+def walk_forest(treemap:list[set], step:tuple):
+    pos = Point()
+    sonnybono = 0
+    walking = True
+    while walking:
+        pos.add(step[0], step[1])
+        if onboard(pos):
+            if (pos.x, pos.y) in treemap:
+                sonnybono += 1
+        else:
+            walking = False
+    return sonnybono
+
 def problemsolver(dataset:list, part:int)->int:
-    def walk_forest(treemap:list[set]):
-        pos = Point()
-        step = (1,3)
-        sonnybono = 0
-        walking = True
-        while walking:
-            pos.add(step[0], step[1])
-            if onboard(pos):
-                if (pos.x, pos.y) in treemap:
-                    sonnybono += 1
-            else:
-                walking = False
-        return sonnybono
     treemap = map_trees(dataset)
-    trees = walk_forest(treemap)
-    return trees
+    if part == 1:
+        trees = walk_forest(treemap, (1, 3))
+        return trees
+
+    elif part == 2:
+        results = []
+        for step in [(1, 1), (1, 3), (1, 5), (1, 7), (2, 1)]:
+            results.append(walk_forest(treemap, step))
+        return np.prod(results)
 
 @log_time
 def part_A():
@@ -65,6 +73,7 @@ def part_A():
     support._877_cache_now() 
     #Pull puzzle description and testdata
     tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1)
+    testdata =  [row * 100 for row in testdata]
     console.log(f"{tellstory}")
     logger.info("testdata table")
     [logger.info(row) for row in testdata]
@@ -84,12 +93,13 @@ def part_B():
     support._877_cache_now()
     #Pull puzzle description and testdata
     tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2)
+    testdata =  [row * 100 for row in testdata]
     console.log(f"{tellstory}")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
     testcase = problemsolver(testdata, 2)
     #Assert testcase
-    assert testcase == 1, f"Test case B failed returned:{testcase}"
+    assert testcase == 336, f"Test case B failed returned:{testcase}"
     logger.info(f"Test case: {testcase} passed for part B")
     #Solve puzzle with full dataset
     answerB = problemsolver(data, 2)
@@ -98,8 +108,8 @@ def part_B():
 def main():
     global data
     data = support.pull_inputdata(DAY, YEAR)
-    #Stack the data horizontally 10 times.
-    data =  [row * 10 for row in data]
+    #Stack the data horizontally 100 times.
+    data =  [row * 100 for row in data]
     #Solve part A
     resultA = part_A()
     fails = [8400518384267]
@@ -111,13 +121,13 @@ def main():
     # support.submit_answer(DAY, YEAR, 1, resultA)
 
     #Solve part B
-    # resultB = part_B()
-    # fails = [8400518384267]
-    # if resultB in fails:
-    #     logger.warning(f"Answer already submitted\nAnswer: {resultB}")
-    #     exit()
-    # else:
-    #     logger.info(f"part B possible solution: \n{resultB}\n")
+    resultB = part_B()
+    fails = [252]
+    if resultB in fails:
+        logger.warning(f"Answer already submitted\nAnswer: {resultB}")
+        exit()
+    else:
+        logger.info(f"part B possible solution: \n{resultB}\n")
     # support.submit_answer(DAY, YEAR, 2, resultB)
 
     #Recurse lines of code
@@ -125,7 +135,7 @@ def main():
     logger.info(f"Lines of code: {LOC}")
 
     #Delete the cache after submission
-    # support._877_cache_now(".cache", True)
+    support._877_cache_now(".cache", True)
     
 if __name__ == "__main__":
     main()
