@@ -73,7 +73,7 @@ def part_A():
     support._877_cache_now() 
     #Pull puzzle description and testdata
     tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1)
-    testdata =  [row * 100 for row in testdata]
+    testdata =  [row * 10 for row in testdata]
     console.log(f"{tellstory}")
     logger.info("testdata table")
     [logger.info(row) for row in testdata]
@@ -93,7 +93,7 @@ def part_B():
     support._877_cache_now()
     #Pull puzzle description and testdata
     tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2)
-    testdata =  [row * 100 for row in testdata]
+    testdata =  [row * 10 for row in testdata]
     console.log(f"{tellstory}")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
