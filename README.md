@@ -11,13 +11,13 @@ Each year is self contained to represent different years tools and / or files.  
 
 ```terminal 
     |────AdventOfCode
-    |    │
-    |    ├── 2021                       <- Year attempt
-    |    ├── 2022                       <- Year attempt
+    |    ├── .vscode                    <- .vscode folder
+    |    |   ├── launch.json            <- json launch file
+    |    |   └── settings.json          <- json settings file
     |    ├── 2023                       <- Year attempt
     |    ├── 2024                       <- Year attempt
     |    ├── 2025                       <- Year attempt
-    |    |   ├── .venv                  <- Virtual Environment
+    |    |   ├── .venv                  <- Virtual environment for that year
     |    |   ├── day1.py                <- Day1 py file
     |    |   ├── day2.py                <- Day2 py file
     |    |   ├── poetry.lock            <- Locked file of libarary dependency versions
@@ -68,6 +68,5 @@ Each year is self contained to represent different years tools and / or files.  
     "terminal.integrated.shellIntegration.enabled": false,
     "terminal.integrated.shellIntegration.decorationsEnabled": false,
 ```
-
 
 Year specific README's will contain any additional information

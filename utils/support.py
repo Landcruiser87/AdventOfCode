@@ -1,10 +1,8 @@
 import os
 import time
 import logging
-import datetime
 import percache
 import requests
-import numpy as np
 from typing import Any
 from pathlib import Path
 from bs4 import BeautifulSoup
@@ -168,11 +166,9 @@ def pull_puzzle(day:int, year:int, part:int, tellstory:bool=True)-> str:
     storytime = subtext.get_text()
     
     if part == 1:
-        sampledata = subtext.select("pre")[-2].text
+        sampledata = subtext.select("pre")[-1].text
     elif part == 2:
-        sampledata = subtext.select("pre")[-2].text
-
-    console.log(f"\n{storytime}")
+        sampledata = subtext.select("pre")[-1].text
 
     #process the sample data
     sampledata = process_input(sampledata, tellstory) #Include extra False to not split

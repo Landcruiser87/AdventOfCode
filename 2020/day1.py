@@ -1,11 +1,17 @@
+import os
+import sys
+#Add the dir above day run as path for easy import
+root_folder = os.path.abspath(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(root_folder)
+
 from utils.time_run import log_time
 from utils.loc import linecount
 from utils.support import logger, console
-import utils.support as support
+from utils import support
 
 #Set day/year global variables
 DAY:int = 1 #datetime.now().day
-YEAR:int = 2025 #datetime.now().year
+YEAR:int = 2020 #datetime.now().year
 
 def data_load(filen:str)->list:
 	with open(f'{DAY}{filen}.txt', 'r') as f:
