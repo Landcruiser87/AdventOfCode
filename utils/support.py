@@ -166,7 +166,7 @@ def pull_puzzle(day:int, year:int, part:int, tellstory:bool=True)-> str:
     storytime = subtext.get_text()
     
     if part == 1:
-        sampledata = bs4ob.select("pre")[-1].text
+        sampledata = bs4ob.select("pre")[-2].text
     elif part == 2:
         sampledata = bs4ob.select("pre")[-1].text
 
