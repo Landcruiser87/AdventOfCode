@@ -4,7 +4,7 @@
 
 These are my solutions for the [Advent of Code 2025](https://adventofcode.com/2025) challenges.
 
-### Setup TODO 
+### Setup 
 
 First export your cookie session with AOC with the google chrome developer tools  (Literally just go copy it)
 Then make a folder in your root titled `secret` and create a text file within called `cookie.txt`.  

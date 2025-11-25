@@ -4,7 +4,7 @@
 
 These are my solutions for the [Advent of Code 2020](https://adventofcode.com/2020) challenges.
 
-### Setup TODO 
+### Setup 
 
 First export your cookie session with AOC with the google chrome developer tools  (Literally just go copy the session key)  Then make a folder in your root titled `secret` and create a text file within called `cookie.txt`.  The .gitignore will ignore all text files / (and other formats) so it won't get loaded into github. 
 

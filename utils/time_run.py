@@ -1,5 +1,4 @@
 import time
-
 def log_time(fn):
 	def inner(*args, **kwargs):
 		tnow = time.time()

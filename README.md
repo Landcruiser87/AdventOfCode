@@ -4,6 +4,36 @@
 
 These are my solutions for the [Advent of Code](https://adventofcode.com) challenges.  Each year is imported as a git subtree for previous years (before 2025).  I have only attempted these problems in python as that is my main language I use.  
 
+
+## Basic Structure
+
+Each year is self contained to represent different years tools and / or files.  Normally it will be structured as follows. 
+
+```terminal 
+    |────AdventOfCode
+    |    │
+    |    ├── 2021                       <- Year attempt
+    |    ├── 2022                       <- Year attempt
+    |    ├── 2023                       <- Year attempt
+    |    ├── 2024                       <- Year attempt
+    |    ├── 2025                       <- Year attempt
+    |    |   ├── .venv                  <- Virtual Environment
+    |    |   ├── day1.py                <- Day1 py file
+    |    |   ├── day2.py                <- Day2 py file
+    |    |   ├── poetry.lock            <- Locked file of libarary dependency versions
+    |    |   └── pyproject.toml         <- Toml file with main libraries
+    |    ├── secret                     <- Year attempt
+    |    |   └── cookie.text            <- Holds your cookie string
+    |    ├── utils                      <- Utils Folder
+    |    |   ├── __init__.py            <- For imports
+    |    |   ├── day_template.py        <- Basic template for start
+    |    |   ├── loc.py                 <- Py file to count lines of code
+    |    |   ├── support.py             <- Houses other support functions for moving data
+    |    |   └── time_run.py            <- Timing func
+    |    ├── .gitignore                 <- .gitignore file for keeping files out of github
+    |    └── README.md                  <- Overall README for monorepo
+```
+
 ### Launch.json
 ```json
 {
