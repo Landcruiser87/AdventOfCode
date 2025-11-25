@@ -15,9 +15,10 @@ def recurse_dir(dir:str = './'):
     return count
 ################################# By File ###################################
 def linecount(file:str) -> int:
+    count = 0
     with open(file, 'r') as f:
         for line in f.read().split('\n'):
             if (not line.strip().startswith('#')) and (not line.strip() == ''):
                 count += 1
-
+    return count
 # to use pass file directory into function call

@@ -166,13 +166,13 @@ def pull_puzzle(day:int, year:int, part:int, tellstory:bool=True)-> str:
     storytime = subtext.get_text()
     
     if part == 1:
-        sampledata = subtext.select("pre")[-1].text
+        sampledata = bs4ob.select("pre")[-1].text
     elif part == 2:
-        sampledata = subtext.select("pre")[-1].text
+        sampledata = bs4ob.select("pre")[-1].text
 
-    #process the sample data
-    sampledata = process_input(sampledata, tellstory) #Include extra False to not split
-
+    if sampledata:
+        #process the sample data
+        sampledata = process_input(sampledata, tellstory) #Include extra False to not split
     return storytime, sampledata
 
 @cache
@@ -242,15 +242,13 @@ def submit_answer(day:int, year:int, part:int, answer:Any=""):
     
     logger.warning(f"Posting {answer} for part {part}")
     url = f"{AOC_URL}/{year}/day/{day}/answer"
+    
     response = requests.post(
         url = url,
         data = {"level":part, "answer":answer},
         cookies = C_IS_4_COOKIE, 
         timeout = 10
     )
-    #TODO - Keep a configs file that can track when the last posting was and to not post another request within x minutes.  I think he has a minute limit on them but I can't quite remember. 
-        #Either way.  Don't hammer his servers. 
-    #Be nice to the servers
     if response.status_code != 200:
         # If there's an error, log it and return no data
         logger.warning(f'Status code: {response.status_code}')
@@ -259,7 +257,7 @@ def submit_answer(day:int, year:int, part:int, answer:Any=""):
     else:
         logger.info(f"POST successful for day {day} of {year}")
         logger.info("Determining answer")
-        bs4ob = BeautifulSoup(response.text, "xml")
+        bs4ob = BeautifulSoup(response.text, "lxml")
         web_text = bs4ob.body.main.article.get_text()
         possiblygood = ["That's the right answer", "You don't seem to be solving the right level"]
         temp = bs4ob.find_all("p")
@@ -273,9 +271,6 @@ def submit_answer(day:int, year:int, part:int, answer:Any=""):
 
         #If we don't find success.  We warn
         logger.warning(f"{web_text}")
-
-#TODO - Create func that can add rows and / or update a markdown table.   or store it in a dataclass.  I'd like it to be able to add new days and update it as I complete sections.  
-    #Make it part of a successful submit function
 
 ################################# Code Line Counter #########################
 # def recurse_dir(dir:str = './'):

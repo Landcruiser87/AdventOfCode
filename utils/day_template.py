@@ -63,7 +63,7 @@ def main():
     #     logger.warning(f"Answer already submitted\nAnswer: {resultA}")
     #     exit()
     # else:
-    #     logger.info(f"part A solution: \n{resultA}\n")
+    #     logger.info(f"part A possible solution: \n{resultA}\n")
     # support.submit_answer(DAY, YEAR, 1, resultA)
 
     #Solve part B
