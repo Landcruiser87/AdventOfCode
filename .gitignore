@@ -129,9 +129,11 @@ dmypy.json
 .pyre/
 
 #Project specific folders
+
+#Project specific folders
 /__pycache__
 /.vscode
-/.pytest_cache
+/.venv
 *.log
 *.xlsx
 *.txt
@@ -140,14 +142,13 @@ dmypy.json
 *.bat
 *poetry.lock
 # *.json
+*__pycache__*
+/.pytest_cache
+secret/*
+scrap/*
 .Rhistory
 .DS_Store
-/data/shapefiles
+*.cache.bak
+*.cache.dir
+*.cache.dat
 
-/.vscode
-/.venv
-/scripts/backup
-/data/backups
-/secret
-scrap/*
-*__pycache__*
