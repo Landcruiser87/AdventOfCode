@@ -16,16 +16,28 @@ DAY:int = 2 #datetime.now().day
 YEAR:int = 2020 #datetime.now().year
 
 def problemsolver(data:list, part:int)->int:
-    if part == 1:
-        valid = 0
-        combos = deque(data)
-        while combos:
-            instructions = combos.popleft()
-            letters, pwd = instructions.split(":")
-            count, letter = letters.split()
-            minc, maxc = count.split("-")
+    valid = 0
+    combos = deque(data)
+    while combos:
+        instructions = combos.popleft()
+        letters, pwd = instructions.split(":")
+        pwd = pwd.strip()
+        count, letter = letters.split()
+        minc, maxc = count.split("-")
+        if part == 1:
             if pwd.count(letter) in range(int(minc), int(maxc) + 1):
                 valid +=1
+        elif part == 2:
+            if letter in pwd:
+                mincheck = pwd[int(minc) - 1] == letter
+                maxcheck = pwd[int(maxc) - 1] == letter
+            else:
+                continue
+            if (mincheck) & (maxcheck):
+                continue
+            elif (mincheck) | (maxcheck):
+                valid += 1
+
     return valid
 
 @log_time
@@ -55,12 +67,11 @@ def part_B():
     #Pull puzzle description and testdata
     tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2)
     console.log(f"{tellstory}")
-    # [logger.info(row) for row in testdata]
-    
+    [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
     testcase = problemsolver(testdata, 2)
     #Assert testcase
-    assert testcase == 241861950, f"Test case B failed returned:{testcase}"
+    assert testcase == 1, f"Test case B failed returned:{testcase}"
     logger.info(f"Test case: {testcase} passed for part B")
     #Solve puzzle with full dataset
     answerB = problemsolver(data, 2)
@@ -80,21 +91,21 @@ def main():
     # support.submit_answer(DAY, YEAR, 1, resultA)
 
     #Solve part B
-    # resultB = part_B()
-    # fails = [8400518384267]
-    # if resultB in fails:
-    #     logger.warning(f"Answer already submitted\nAnswer: {resultB}")
-    #     exit()
-    # else:
-    #     logger.info(f"part B possible solution: \n{resultB}\n")
-    # # support.submit_answer(DAY, YEAR, 2, resultB)
+    resultB = part_B()
+    fails = [8400518384267]
+    if resultB in fails:
+        logger.warning(f"Answer already submitted\nAnswer: {resultB}")
+        exit()
+    else:
+        logger.info(f"part B possible solution: \n{resultB}\n")
+    support.submit_answer(DAY, YEAR, 2, resultB)
 
     #Recurse lines of code
     LOC = linecount(f'./{YEAR}/day{DAY}.py')
     logger.info(f"Lines of code: {LOC}")
 
     #Delete the cache after submission
-    # support._877_cache_now(".cache", True)
+    support._877_cache_now(".cache", True)
     
 if __name__ == "__main__":
     main()
