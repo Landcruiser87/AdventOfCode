@@ -2,7 +2,7 @@
 
 ## 🎄 Summary 🎄
 
-These are my solutions for the [Advent of Code 2020](https://adventofcode.com/2020) challenges.
+These are my solutions for the [Advent of Code 2020](https://adventofcode.com/2020) challenges.  Its currently 2025 but, I thought I'd do some older problems to help refresh my memory on how all this works
 
 ### Setup 
 
