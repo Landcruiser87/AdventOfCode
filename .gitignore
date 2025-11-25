@@ -138,6 +138,7 @@ dmypy.json
 *.zip
 *.shp
 *.bat
+*poetry.lock
 # *.json
 .Rhistory
 .DS_Store
