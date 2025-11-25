@@ -12,23 +12,21 @@ from itertools import combinations
 from collections import deque
 
 #Set day/year global variables
-DAY:int = 1 #datetime.now().day
+DAY:int = 2 #datetime.now().day
 YEAR:int = 2020 #datetime.now().year
-
 
 def problemsolver(data:list, part:int)->int:
     if part == 1:
-        combos = deque(list(combinations(data, 2)))
+        valid = 0
+        combos = deque(data)
         while combos:
-            idx1, idx2 = combos.popleft()
-            if int(idx1) + int(idx2) == 2020:
-                return int(idx1) * int(idx2)
-    elif part == 2:
-        combos = deque(list(combinations(data, 3)))
-        while combos:
-            idx1, idx2, idx3 = combos.popleft()
-            if int(idx1) + int(idx2) + int(idx3) == 2020:
-                return int(idx1) * int(idx2) * int(idx3)
+            instructions = combos.popleft()
+            letters, pwd = instructions.split(":")
+            count, letter = letters.split()
+            minc, maxc = count.split("-")
+            if pwd.count(letter) in range(int(minc), int(maxc) + 1):
+                valid +=1
+    return valid
 
 @log_time
 def part_A():
@@ -43,7 +41,7 @@ def part_A():
     #Solve puzzle w/testcase
     testcase = problemsolver(testdata, 1)
     #Assert testcase
-    assert testcase == 514579, f"Test case A failed returned:{testcase}"
+    assert testcase == 2, f"Test case A failed returned:{testcase}"
     logger.info(f"Test case passed for part A")
     #Solve puzzle with full dataset
     answerA = problemsolver(data, 1)
@@ -82,21 +80,21 @@ def main():
     # support.submit_answer(DAY, YEAR, 1, resultA)
 
     #Solve part B
-    resultB = part_B()
-    fails = [8400518384267]
-    if resultB in fails:
-        logger.warning(f"Answer already submitted\nAnswer: {resultB}")
-        exit()
-    else:
-        logger.info(f"part B possible solution: \n{resultB}\n")
-    # support.submit_answer(DAY, YEAR, 2, resultB)
+    # resultB = part_B()
+    # fails = [8400518384267]
+    # if resultB in fails:
+    #     logger.warning(f"Answer already submitted\nAnswer: {resultB}")
+    #     exit()
+    # else:
+    #     logger.info(f"part B possible solution: \n{resultB}\n")
+    # # support.submit_answer(DAY, YEAR, 2, resultB)
 
     #Recurse lines of code
     LOC = linecount(f'./{YEAR}/day{DAY}.py')
     logger.info(f"Lines of code: {LOC}")
 
     #Delete the cache after submission
-    support._877_cache_now(".cache", True)
+    # support._877_cache_now(".cache", True)
     
 if __name__ == "__main__":
     main()

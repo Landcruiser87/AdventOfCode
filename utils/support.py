@@ -272,7 +272,15 @@ def submit_answer(day:int, year:int, part:int, answer:Any=""):
         #If we don't find success.  We warn
         logger.warning(f"{web_text}")
 
+#Old data loader
+# def data_load(filen:str)->list:
+# 	with open(f'{DAY}{filen}.txt', 'r') as f:
+# 		data = f.read().splitlines()
+# 		arr = [x.strip() if x != "" else "" for x in data]
+# 	return arr
+
 ################################# Code Line Counter #########################
+
 # def recurse_dir(dir:str = './'):
 #     """
 #     Given the particular days directory, Recurse through and calculate how many
