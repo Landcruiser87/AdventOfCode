@@ -23,7 +23,6 @@ If you're using VSCode your env can be tied to the year you're using by changing
 
 ## 🎄 Results 🎄
 
-    
 ### Sample
 
 | Day | Stars | Solution | Name | Speed Part A | Speed Part B | LOC |
