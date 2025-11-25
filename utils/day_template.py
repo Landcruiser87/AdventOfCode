@@ -1,7 +1,7 @@
 from utils.time_run import log_time
 from utils.loc import linecount
 from utils.support import logger, console
-import support
+import utils.support as support
 
 #Set day/year global variables
 DAY:int = 1 #datetime.now().day
@@ -15,7 +15,6 @@ def data_load(filen:str)->list:
 
 def problemsolver(data:list, part:int)->int:
     pass
-
 
 @log_time
 def part_A():
@@ -55,8 +54,8 @@ def part_B():
 
 def main():
     global data
-    
     data = support.pull_inputdata(DAY, YEAR)
+
     #Solve part A
     resultA = part_A()
     # fails = [8400518384267]
@@ -79,7 +78,7 @@ def main():
 
     #Recurse lines of code
     LOC = linecount(f'./{YEAR}/{DAY}.py')
-    logger.info(f"Lines of code \n{LOC}")
+    logger.info(f"Lines of code: {LOC}")
 
     #Delete the cache after submission
     # support._877_cache_now(".cache", False)
