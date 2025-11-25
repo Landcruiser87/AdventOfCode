@@ -282,26 +282,26 @@ def submit_answer(day:int, year:int, part:int, answer:Any=""):
     #Make it part of a successful submit function
 
 ################################# Code Line Counter #########################
-def recurse_dir(dir:str = './'):
-    """
-    Given the particular days directory, Recurse through and calculate how many
-    lines of code that are uncommented were written for every py file found.
+# def recurse_dir(dir:str = './'):
+#     """
+#     Given the particular days directory, Recurse through and calculate how many
+#     lines of code that are uncommented were written for every py file found.
 
-    Args:
-        dir (str, optional): Directory you want to search. Defaults to './'.
+#     Args:
+#         dir (str, optional): Directory you want to search. Defaults to './'.
 
-    Returns:
-        count (int): Lines of code counted in directory
-    """    
-    count = 0
-    for file in os.listdir(dir):
-        if not os.path.isfile(dir + file):
-            count += recurse_dir(dir + file + '/')
-        elif file.endswith('.py'):
-            with open(dir + file, 'r') as f:
-                for line in f.readlines():
-                    #Don't count any line that starts with # or is empty
-                    if (not line.strip().startswith('#')) and (not line.strip() == ''):
-                        count += 1
+#     Returns:
+#         count (int): Lines of code counted in directory
+#     """    
+#     count = 0
+#     for file in os.listdir(dir):
+#         if not os.path.isfile(dir + file):
+#             count += recurse_dir(dir + file + '/')
+#         elif file.endswith('.py'):
+#             with open(dir + file, 'r') as f:
+#                 for line in f.readlines():
+#                     #Don't count any line that starts with # or is empty
+#                     if (not line.strip().startswith('#')) and (not line.strip() == ''):
+#                         count += 1
 
-    return count
+#     return count
