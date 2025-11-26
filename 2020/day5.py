@@ -35,7 +35,6 @@ class Seat():
                 case "R":
                     self.totalCols = self.range_divide(1, self.totalCols)
         self.seatId = self.seatRow * 8 + self.seatCol
-        
 
     def range_divide(self, highlow:int, rangeOb:range):
         midpoint = len(rangeOb) // 2
@@ -50,10 +49,10 @@ class Seat():
                 return range(rangeOb.start, rangeOb[midpoint])
         elif highlow == 1:
             if (len(self.totalSeats) == 2) & (self.seatRow == None):
-                self.seatRow = rangeOb.stop
+                self.seatRow = rangeOb.stop - 1
                 return self.totalSeats
             elif (len(self.totalCols) == 2) & (self.seatCol == None):
-                self.seatCol = rangeOb.stop
+                self.seatCol = rangeOb.stop - 1
                 return self.totalCols
             else:
                return range(rangeOb[midpoint], rangeOb.stop)
@@ -75,6 +74,7 @@ def part_A():
     support._877_cache_now() 
     #Pull puzzle description and testdata
     tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, False, "li")
+    testdata = "FBFBBFFRLR\nBFFFBBFRRR\nFFFBBBFRRR\nBBFFBBFRLL".splitlines()
     console.log(f"{tellstory}")
     logger.info("testdata table")
     [logger.info(row) for row in testdata]
@@ -93,7 +93,8 @@ def part_B():
     #Check cache status
     support._877_cache_now()
     #Pull puzzle description and testdata
-    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2, False, -1)
+    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2, False, "li")
+    testdata = "FBFBBFFRLR\nBFFFBBFRRR\nFFFBBBFRRR\nBBFFBBFRLL".splitlines()
     console.log(f"{tellstory}")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
@@ -111,13 +112,13 @@ def main():
     #Stack the data horizontally 100 times.
     # Solve part A
     resultA = part_A()
-    fails = [8400518384267]
+    fails = [887]
     if resultA in fails:
         logger.warning(f"Answer already submitted\nAnswer: {resultA}")
         exit()
     else:
         logger.info(f"part A possible solution: \n{resultA}\n")
-    # support.submit_answer(DAY, YEAR, 1, resultA)
+    support.submit_answer(DAY, YEAR, 1, resultA)
 
     #Solve part B
     # resultB = part_B()
