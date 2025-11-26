@@ -103,7 +103,7 @@ def part_A():
     #to check your cache status when you need cache nooooow call J.... G.... WENTWORTH. 
     support._877_cache_now() 
     #Pull puzzle description and testdata
-    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, False, -1)
+    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, False, -4)
     console.log(f"{tellstory}")
     logger.info("testdata table")
     [logger.info(row) for row in testdata]
@@ -138,8 +138,7 @@ def main():
     global data
     data = support.pull_inputdata(DAY, YEAR)
     #Stack the data horizontally 100 times.
-    # data =  [row * 100 for row in data]
-    #Solve part A
+    # Solve part A
     resultA = part_A()
     fails = [8400518384267]
     if resultA in fails:
@@ -147,9 +146,9 @@ def main():
         exit()
     else:
         logger.info(f"part A possible solution: \n{resultA}\n")
-    # support.submit_answer(DAY, YEAR, 1, resultA)
+    # # support.submit_answer(DAY, YEAR, 1, resultA)
 
-    #Solve part B
+    # #Solve part B
     resultB = part_B()
     fails = [252]
     if resultB in fails:
