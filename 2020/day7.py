@@ -6,13 +6,53 @@ sys.path.append(root_folder)
 from utils import support
 from utils.loc import linecount
 from utils.support import logger, console, log_time
+from dataclasses import dataclass, field
 
 #Set day/year global variables
 DAY:int = 7 #datetime.now().day
 YEAR:int = 2020 #datetime.now().year
 
+@dataclass
+class Bags():
+    rawText  :list = None
+    validBags:int  = 0
+    rules    :dict = field(default_factory=lambda:{})
+    def makeRules(self):
+        for row in self.rawText:
+            key, reqs = row.split("bags contain")
+            contents = reqs.strip(".").split(",")
+            cleaned = [x.strip("bags").strip() for x in contents]
+            subDict = {}
+            for x in cleaned:
+                subKey = " ".join(x.split(" ")[1:])
+                test = "no other" in x
+                if not test:
+                    count = int(x.split(" ")[0])
+                    subDict[subKey] = count
+                else:
+                    subDict["no other"] = {}
+            self.rules[key.strip()] = subDict
+
+    def countBags(self):
+        target:str = "shiny gold"
+        validKeys:set = set()
+        for k, v in self.rules.items():
+            if target in v.keys():
+                validKeys.add(k)
+        copiedKeys = validKeys.copy()
+        for k, v in self.rules.items():
+            for valid in validKeys:
+                if valid in v:
+                    copiedKeys.add(k)
+    
+        self.validBags = len(copiedKeys)
+
 def problemSolver(dataset:list, part:int)->int:
-    pass
+    bags = Bags(rawText=dataset)
+    bags.makeRules()
+    bags.countBags()
+    if part == 1:
+        return bags.validBags
 
 @log_time
 def part_A():
@@ -27,7 +67,7 @@ def part_A():
     #Solve puzzle w/testcase
     testcase = problemSolver(testdata, 1)
     #Assert testcase
-    assert testcase == 11, f"Test case A failed returned:{testcase}"
+    assert testcase == 4, f"Test case A failed returned:{testcase}"
     logger.info(f"Test case passed for part A")
     #Solve puzzle with full dataset
     answerA = problemSolver(data, 1)
