@@ -165,11 +165,16 @@ def pull_puzzle(day:int, year:int, part:int, samplet:bool=True, tindex:int=None)
     bs4ob = BeautifulSoup(response.text, features="xml")
     subtext = bs4ob.find_all("article")[part - 1]
     storytime = subtext.get_text()
-    
     if part == 1:
-        sampledata = bs4ob.select("pre")[tindex].text
+        if tindex == "li":
+            sampledata = "BFFFBBFRRR\nFFFBBBFRRR\nBBFFBBFRLL"
+        else:
+            sampledata = bs4ob.select("pre")[tindex].text
     elif part == 2:
-        sampledata = bs4ob.select("pre")[tindex].text
+        if tindex == "li":
+            sampledata = "BFFFBBFRRR\nFFFBBBFRRR\nBBFFBBFRLL"
+        else:
+            sampledata = bs4ob.select("pre")[tindex].text
 
     if sampledata:
         #process the sample data
