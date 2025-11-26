@@ -4,6 +4,7 @@ import sys
 root_folder = os.path.abspath(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(root_folder)
 import numpy as np
+from itertools import groupby
 from utils import support
 from utils.loc import linecount
 from dataclasses import dataclass
@@ -13,36 +14,23 @@ from utils.support import logger, console, log_time
 DAY:int = 4 #datetime.now().day
 YEAR:int = 2020 #datetime.now().year
 
-@dataclass
-class Point():
-    x:int = 0
-    y:int = 0
-    def add(self, x:int, y:int):
-        self.x += x
-        self.y += y
-
-def map_trees(dataset:list):
-    trees = set()
-    for x in range(len(dataset)):
-        for y in range(len(dataset[x])):
-            if dataset[x][y] == "#":
-                trees.add((x, y))
-    return trees
-    
-def onboard(point:dataclass) -> bool:
-    global data
-    x = point.x
-    y = point.y
-    height, width  = len(data), len(data[0])
-    if (x < 0) | (x >= height):
-        return False
-    elif (y < 0) | (y >= width):
-        return False
-    else:
-        return True
+PASS_DICT = {
+    "byr" : "(Birth Year)",
+    "iyr" : "(Issue Year)",
+    "eyr" : "(Expiration Year)",
+    "hgt" : "(Height)",
+    "hcl" : "(Hair Color)",
+    "ecl" : "(Eye Color)",
+    "pid" : "(Passport ID)",
+    "cid" : "(Country ID)",
+}
 
 def problemsolver(dataset:list, part:int)->int:
-    pass
+    datal = groupby(dataset, key=lambda x:x == "")
+    data = [list(group) for is_empty, group in datal if not is_empty]
+    for group in data:
+        pass
+ 
 
 @log_time
 def part_A():
@@ -57,7 +45,7 @@ def part_A():
     #Solve puzzle w/testcase
     testcase = problemsolver(testdata, 1)
     #Assert testcase
-    assert testcase == 7, f"Test case A failed returned:{testcase}"
+    assert testcase == 2, f"Test case A failed returned:{testcase}"
     logger.info(f"Test case passed for part A")
     #Solve puzzle with full dataset
     answerA = problemsolver(data, 1)
