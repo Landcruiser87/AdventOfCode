@@ -31,5 +31,5 @@ If you're using VSCode your env can be tied to the year you're using by changing
 | 02  | ⭐⭐ | [Day2](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day2.py) |[Password Philosophy](https://adventofcode.com/2020/day/2) | 44.93 ms | 34.57 ms | 80 |
 | 03  | ⭐⭐ | [Day3](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day3.py) |[Toboggan Trajectory](https://adventofcode.com/2020/day/3) | 540.42 ms  | 501.06 ms | 108 |
 | 04  | ⭐⭐ | [Day4](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day4.py) |[Passport Processing](https://adventofcode.com/2020/day/4) | 42.94 ms | 38.14 ms | 134 |
-| 05  | ⭐⭐ | [Day5](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day5.py) |[Binary Boarding](https://adventofcode.com/2020/day/5) | 37.89 ms | 69.41  | 116 |
-| 05  | ⭐⭐ | [Day6](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day6.py) |[Custom Customs](https://adventofcode.com/2020/day/6) | 55.29 ms |  27.77  | 77 |
+| 05  | ⭐⭐ | [Day5](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day5.py) |[Binary Boarding](https://adventofcode.com/2020/day/5) | 37.89 ms | 69.41 ms | 116 |
+| 05  | ⭐⭐ | [Day6](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day6.py) |[Custom Customs](https://adventofcode.com/2020/day/6) | 55.29 ms |  27.77 ms | 77 |
