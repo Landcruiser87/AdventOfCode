@@ -137,13 +137,14 @@ def _877_cache_now(
         logger.critical("cache cleared")
 
 @cache
-def pull_puzzle(day:int, year:int, part:int, tellstory:bool=True, tindex:int=None)-> str:
+def pull_puzzle(day:int, year:int, part:int, samplet:bool=True, tindex:int=None)-> str:
     """This function pulls down the puzzle description with requests
 
     Args:
         day (int): Day of AOC
         year (int): Year of AOC
         part (int): Which part is being solved
+        samplet (bool): Whether to show the sample table
 
     Returns:
         sampledata[str]: The testcase dataset in str form
@@ -172,7 +173,7 @@ def pull_puzzle(day:int, year:int, part:int, tellstory:bool=True, tindex:int=Non
 
     if sampledata:
         #process the sample data
-        sampledata = process_input(sampledata, tellstory) #Include extra False to not split
+        sampledata = process_input(sampledata, samplet) #Include extra False to not split
     return storytime, sampledata
 
 @cache
