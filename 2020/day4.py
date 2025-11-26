@@ -23,30 +23,61 @@ PASS_DICT = {
     "cid" : "(Country ID)",
 }
 def validate_entries(entries:list)->bool:
+    """Basic idea is to cause any entry to fail if it doesn't pass the validation checks
+
+    Args:
+        entries (list): List of strings grouped by the groupby function
+
+    Returns:
+        bool: Whether or not the passport is valid
+    """    
     for entry in entries:
-        key = entry[0]
-        val = entry[1]
+        key, val = entry.split(":")
         match key:
             case "byr":
-                if len(val) != 4 and all(val.isnumeric()):
+                if len(val) != 4 and not val.isdigit():
                     return False
-                if int(val) in range(1920, 2002):
+                if int(val) not in range(1920, 2003):
                     return False
-
             case "iyr":
-                pass
+                if len(val) != 4 and not val.isnumeric():
+                    return False
+                if int(val) not in range(2010, 2021):
+                    return False
             case "eyr":
-                pass
+                if len(val) != 4 and not val.isnumeric():
+                    return False
+                if int(val) not in range(2020, 2031):
+                    return False
             case "hgt":
-                pass
+                if val.endswith("cm"):
+                    if int(val[:-2]) not in range(150, 194):
+                        return False
+                elif val.endswith("in"):
+                    if int(val[:-2]) not in range(59, 77):
+                        return False
+                else:
+                    return False
             case "hcl":
-                pass
+                if (val.startswith("#")) & (len(val[1:])==6):
+                    for v in val[1:]:
+                        if v.isdigit(): 
+                            if int(v) not in range(0, 10):
+                                return False
+                        elif v.isalpha():
+                            if v not in ["a","b","c","d","e","f"]:
+                                return False
+                else:   
+                    return False
             case "ecl":
-                pass
+                if val not in ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]:
+                    return False
             case "pid":
-                pass
-            case "cid":
-                pass
+                if not val.isnumeric() & (len(val) == 9):
+                    return False
+            # case "cid": No case for cid because we ignore it. 
+            #     pass
+
     return True
 
 def problemsolver(dataset:list, part:int)->int:
@@ -57,7 +88,9 @@ def problemsolver(dataset:list, part:int)->int:
     for passport in data:
         entries = passport.split(" ")
         if part == 2:
-            validate_entries(entries)
+            trust = validate_entries(entries)
+            if not trust:
+                continue
         keys = [entry.split(":")[0] for entry in entries]
         diff = set(PASS_DICT.keys()) - set(keys)
         if (not diff) | (diff == cid):
@@ -124,7 +157,7 @@ def main():
         exit()
     else:
         logger.info(f"part B possible solution: \n{resultB}\n")
-    # support.submit_answer(DAY, YEAR, 2, resultB)
+    support.submit_answer(DAY, YEAR, 2, resultB)
 
     #Recurse lines of code
     LOC = linecount(f'./{YEAR}/day{DAY}.py')
