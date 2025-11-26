@@ -70,7 +70,7 @@ def problemSolver(dataset:list, part:int)->int:
         return max(seatIds)
     elif part == 2:
         for i in seatIds:
-            if i+1 not in seatIds:
+            if i + 1 not in seatIds:
                 return i + 1
 
 @log_time
@@ -141,7 +141,7 @@ def main():
     logger.info(f"Lines of code: {LOC}")
 
     #Delete the cache after submission
-    # support._877_cache_now(".cache", True)
+    support._877_cache_now(".cache", True)
     
 if __name__ == "__main__":
     main()
