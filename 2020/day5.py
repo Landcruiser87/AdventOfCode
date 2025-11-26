@@ -115,7 +115,6 @@ def part_B():
 def main():
     global data
     data = support.pull_inputdata(DAY, YEAR)
-    #Stack the data horizontally 100 times.
     # Solve part A
     resultA = part_A()
     fails = [887]
