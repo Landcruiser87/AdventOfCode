@@ -137,7 +137,7 @@ def _877_cache_now(
         logger.critical("cache cleared")
 
 @cache
-def pull_puzzle(day:int, year:int, part:int, tellstory:bool=True)-> str:
+def pull_puzzle(day:int, year:int, part:int, tellstory:bool=True, tindex:int=None)-> str:
     """This function pulls down the puzzle description with requests
 
     Args:
@@ -166,9 +166,9 @@ def pull_puzzle(day:int, year:int, part:int, tellstory:bool=True)-> str:
     storytime = subtext.get_text()
     
     if part == 1:
-        sampledata = bs4ob.select("pre")[-3].text
+        sampledata = bs4ob.select("pre")[tindex].text
     elif part == 2:
-        sampledata = bs4ob.select("pre")[-3].text
+        sampledata = bs4ob.select("pre")[tindex].text
 
     if sampledata:
         #process the sample data

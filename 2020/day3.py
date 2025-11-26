@@ -72,7 +72,7 @@ def part_A():
     #to check your cache status when you need cache nooooow call J.... G.... WENTWORTH. 
     support._877_cache_now() 
     #Pull puzzle description and testdata
-    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1)
+    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, True, -3)
     testdata =  [row * 10 for row in testdata]
     console.log(f"{tellstory}")
     logger.info("testdata table")
@@ -92,7 +92,7 @@ def part_B():
     #Check cache status
     support._877_cache_now()
     #Pull puzzle description and testdata
-    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2)
+    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2, True, -3)
     testdata =  [row * 10 for row in testdata]
     console.log(f"{tellstory}")
     [logger.info(row) for row in testdata]

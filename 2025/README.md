@@ -27,4 +27,4 @@ If you're using VSCode your env can be tied to the year you're using by changing
 
 | Day | Stars | Solution | Name                                                             | Speed Part A | Speed Part B | LOC |
 | --- | ----- | ---- | ---------------------------------------------------------------- | ----- | ----- | --- | 
-| 01  | ⭐⭐ | [Day1](https://github.com/Landcruiser87/AoC2023/blob/main/day1/day1.py) |[Trebuchet!?](https://adventofcode.com/2023/day/1) | 2.998 ms | 5.999 ms | 71 |
+| 01  | ⭐⭐ | [Day1](https://github.com/Landcruiser87/AdventOfCode/blob/main/2025/day1.py) |[Trebuchet!?](https://adventofcode.com/2025/day/1) | 2.998 ms | 5.999 ms | 71 |

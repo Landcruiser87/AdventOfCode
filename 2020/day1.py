@@ -3,10 +3,8 @@ import sys
 #Add the dir above day run as path for easy import
 root_folder = os.path.abspath(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(root_folder)
-
-from utils.time_run import log_time
 from utils.loc import linecount
-from utils.support import logger, console
+from utils.support import logger, console, log_time
 from utils import support
 from itertools import combinations
 from collections import deque
@@ -36,7 +34,7 @@ def part_A():
     #to check your cache status when you need cache nooooow call J.... G.... WENTWORTH. 
     support._877_cache_now() 
     #Pull puzzle description and testdata
-    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1)
+    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, True, 0)
     console.log(f"{tellstory}")
     logger.info("testdata table")
     [logger.info(row) for row in testdata]
@@ -55,7 +53,7 @@ def part_B():
     #Check cache status
     support._877_cache_now()
     #Pull puzzle description and testdata
-    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2)
+    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2, True, 0)
     console.log(f"{tellstory}")
     # [logger.info(row) for row in testdata]
     
