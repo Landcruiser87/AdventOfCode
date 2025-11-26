@@ -6,13 +6,67 @@ sys.path.append(root_folder)
 from utils import support
 from utils.loc import linecount
 from utils.support import logger, console, log_time
+from dataclasses import dataclass
+from collections import deque
 
 #Set day/year global variables
 DAY:int = 5 #datetime.now().day
 YEAR:int = 2020 #datetime.now().year
 
-def problemsolver(dataset:list, part:int)->int:
-    pass
+@dataclass
+class Seat():
+    input     :str   = ""
+    seatId    :int   = None
+    seatRow   :int   = None
+    seatCol   :int   = None
+    totalCols :range = range(0, 8)
+    totalSeats:range = range(0, 128)
+    def decode(self):
+        directions = deque(self.input)
+        while directions:
+            direct = directions.popleft()
+            match direct:
+                case "B":
+                    self.totalSeats = self.range_divide(1, self.totalSeats)
+                case "F":
+                    self.totalSeats = self.range_divide(-1, self.totalSeats)
+                case "L":
+                    self.totalCols = self.range_divide(-1, self.totalCols)
+                case "R":
+                    self.totalCols = self.range_divide(1, self.totalCols)
+        self.seatId = self.seatRow * 8 + self.seatCol
+        
+
+    def range_divide(self, highlow:int, rangeOb:range):
+        midpoint = len(rangeOb) // 2
+        if highlow == -1:
+            if (len(self.totalSeats) == 2) & (self.seatRow == None):
+                self.seatRow = rangeOb.start
+                return self.totalSeats
+            elif (len(self.totalCols) == 2) & (self.seatCol == None):
+                self.seatCol = rangeOb.start
+                return self.totalCols
+            else:
+                return range(rangeOb.start, rangeOb[midpoint])
+        elif highlow == 1:
+            if (len(self.totalSeats) == 2) & (self.seatRow == None):
+                self.seatRow = rangeOb.stop
+                return self.totalSeats
+            elif (len(self.totalCols) == 2) & (self.seatCol == None):
+                self.seatCol = rangeOb.stop
+                return self.totalCols
+            else:
+               return range(rangeOb[midpoint], rangeOb.stop)
+        else:
+            raise ValueError("I think you broke it hoser")
+
+def problemSolver(dataset:list, part:int)->int:
+    results = []
+    for seat in dataset:
+        ticket = Seat(seat)
+        ticket.decode()
+        results.append(ticket.seatId)
+    return max(results)
 
 @log_time
 def part_A():
@@ -25,12 +79,12 @@ def part_A():
     logger.info("testdata table")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
-    testcase = problemsolver(testdata, 1)
+    testcase = problemSolver(testdata, 1)
     #Assert testcase
-    assert testcase == 357, f"Test case A failed returned:{testcase}"
+    assert testcase == 820, f"Test case A failed returned:{testcase}"
     logger.info(f"Test case passed for part A")
     #Solve puzzle with full dataset
-    answerA = problemsolver(data, 1)
+    answerA = problemSolver(data, 1)
     return answerA
 
 @log_time
@@ -43,12 +97,12 @@ def part_B():
     console.log(f"{tellstory}")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
-    testcase = problemsolver(testdata, 2)
+    testcase = problemSolver(testdata, 2)
     #Assert testcase
     assert testcase == 4, f"Test case B failed returned:{testcase}"
     logger.info(f"Test case: {testcase} passed for part B")
     #Solve puzzle with full dataset
-    answerB = problemsolver(data, 2)
+    answerB = problemSolver(data, 2)
     return answerB
 
 def main():

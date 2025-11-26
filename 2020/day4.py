@@ -137,7 +137,6 @@ def part_B():
 def main():
     global data
     data = support.pull_inputdata(DAY, YEAR)
-    #Stack the data horizontally 100 times.
     # Solve part A
     resultA = part_A()
     fails = [8400518384267]
@@ -146,7 +145,7 @@ def main():
         exit()
     else:
         logger.info(f"part A possible solution: \n{resultA}\n")
-    # # support.submit_answer(DAY, YEAR, 1, resultA)
+    # support.submit_answer(DAY, YEAR, 1, resultA)
 
     # #Solve part B
     resultB = part_B()

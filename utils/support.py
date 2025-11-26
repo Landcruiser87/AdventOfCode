@@ -167,12 +167,12 @@ def pull_puzzle(day:int, year:int, part:int, samplet:bool=True, tindex:int=None)
     storytime = subtext.get_text()
     if part == 1:
         if tindex == "li":
-            sampledata = "BFFFBBFRRR\nFFFBBBFRRR\nBBFFBBFRLL"
+            sampledata = "FBFBBFFRLR\nBFFFBBFRRR\nFFFBBBFRRR\nBBFFBBFRLL"
         else:
             sampledata = bs4ob.select("pre")[tindex].text
     elif part == 2:
         if tindex == "li":
-            sampledata = "BFFFBBFRRR\nFFFBBBFRRR\nBBFFBBFRLL"
+            sampledata = "FBFBBFFRLR\nBFFFBBFRRR\nFFFBBBFRRR\nBBFFBBFRLL"
         else:
             sampledata = bs4ob.select("pre")[tindex].text
 
