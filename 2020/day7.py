@@ -34,18 +34,21 @@ class Bags():
             self.rules[key.strip()] = subDict
 
     def countBags(self):
-        target:str = "shiny gold"
+        target:list[str] = ["shiny gold"]
         validKeys:set = set()
-        for k, v in self.rules.items():
-            if target in v.keys():
-                validKeys.add(k)
-        copiedKeys = validKeys.copy()
-        for k, v in self.rules.items():
-            for valid in validKeys:
-                if valid in v:
-                    copiedKeys.add(k)
-    
-        self.validBags = len(copiedKeys)
+        start = 0
+        #Consider path algo's
+        while True:
+            for k in self.rules.keys():
+                for f in self.rules[k]:
+                    if (f in validKeys) | (f in target):
+                        validKeys.add(k)
+            if len(validKeys) > start: 
+                start = len(validKeys)
+            else:
+                break
+
+        self.validBags = len(validKeys)
 
 def problemSolver(dataset:list, part:int)->int:
     bags = Bags(rawText=dataset)
@@ -96,13 +99,13 @@ def main():
     data = support.pull_inputdata(DAY, YEAR)
     # Solve part A
     resultA = part_A()
-    fails = [887]
+    fails = [27]
     if resultA in fails:
         logger.warning(f"Answer already submitted\nAnswer: {resultA}")
         exit()
     else:
         logger.info(f"part A possible solution: \n{resultA}\n")
-    # support.submit_answer(DAY, YEAR, 1, resultA)
+    support.submit_answer(DAY, YEAR, 1, resultA)
 
     #Solve part B
     # resultB = part_B()
