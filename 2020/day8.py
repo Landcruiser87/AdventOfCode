@@ -28,13 +28,13 @@ class gameConsole():
         accumulator:int = 0
         visited    :set = set()
         while True:
-            if(self.idx >= len(table)):
+            if self.idx >= len(table):
                 return (True, accumulator)
             elif self.idx in visited:
                 return accumulator
             else:
                 visited.add(self.idx)
-            command = table[self.idx][0]
+            command = table[self.idx][0]    
             movement = table[self.idx][1]
             match command:
                 case "nop":
