@@ -25,37 +25,48 @@ class Bags():
             subDict = {}
             for x in cleaned:
                 subKey = " ".join(x.split(" ")[1:])
-                test = "no other" in x
-                if not test:
+                if not "no other" in x:
                     count = int(x.split(" ")[0])
                     subDict[subKey] = count
-                else:
-                    subDict["no other"] = {}
             self.rules[key.strip()] = subDict
 
-    def countBags(self):
-        target:list[str] = ["shiny gold"]
+    def countColors(self, target:str):
         validKeys:set = set()
         start = 0
-        #Consider path algo's
         while True:
             for k in self.rules.keys():
                 for f in self.rules[k]:
-                    if (f in validKeys) | (f in target):
+                    if (f in validKeys) | (f in [target]):
                         validKeys.add(k)
             if len(validKeys) > start: 
                 start = len(validKeys)
             else:
                 break
-
         self.validBags = len(validKeys)
 
+    def countBags(self, target:str):
+        global bagman
+        localrules = self.rules[target]
+        for rule in localrules:
+            key = rule
+            count = localrules[rule]
+            for _ in range(count):
+                bagman.append(x for x in self.countBags(key))
+        return bagman
+
 def problemSolver(dataset:list, part:int)->int:
+    target:str = "shiny gold"
     bags = Bags(rawText=dataset)
     bags.makeRules()
-    bags.countBags()
     if part == 1:
+        bags.countColors(target)
         return bags.validBags
+
+    elif part == 2:
+        global bagman
+        bagman = []
+        bags.countBags(target)
+        return len(bagman)
 
 @log_time
 def part_A():
@@ -63,7 +74,7 @@ def part_A():
     #to check your cache status when you need cache nooooow call J.... G.... WENTWORTH. 
     support._877_cache_now() 
     #Pull puzzle description and testdata
-    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, False, -1)
+    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, False, -2)
     console.log(f"{tellstory}")
     logger.info("testdata table")
     [logger.info(row) for row in testdata]
@@ -88,7 +99,7 @@ def part_B():
     #Solve puzzle w/testcase
     testcase = problemSolver(testdata, 2)
     #Assert testcase
-    assert testcase == 6, f"Test case B failed returned:{testcase}"
+    assert testcase == 126, f"Test case B failed returned:{testcase}"
     logger.info(f"Test case: {testcase} passed for part B")
     #Solve puzzle with full dataset
     answerB = problemSolver(data, 2)
@@ -105,17 +116,17 @@ def main():
         exit()
     else:
         logger.info(f"part A possible solution: \n{resultA}\n")
-    support.submit_answer(DAY, YEAR, 1, resultA)
+    # support.submit_answer(DAY, YEAR, 1, resultA)
 
     #Solve part B
-    # resultB = part_B()
-    # fails = [252]
-    # if resultB in fails:
-    #     logger.warning(f"Answer already submitted\nAnswer: {resultB}")
-    #     exit()
-    # else:
-    #     logger.info(f"part B possible solution: \n{resultB}\n")
-    # support.submit_answer(DAY, YEAR, 2, resultB)
+    resultB = part_B()
+    fails = [252]
+    if resultB in fails:
+        logger.warning(f"Answer already submitted\nAnswer: {resultB}")
+        exit()
+    else:
+        logger.info(f"part B possible solution: \n{resultB}\n")
+    support.submit_answer(DAY, YEAR, 2, resultB)
 
     #Recurse lines of code
     LOC = linecount(f'./{YEAR}/day{DAY}.py')

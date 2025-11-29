@@ -33,4 +33,4 @@ If you're using VSCode your env can be tied to the year you're using by changing
 | 04  | ⭐⭐ | [Day4](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day4.py) |[Passport Processing](https://adventofcode.com/2020/day/4) | 42.94 ms | 38.14 ms | 134 |
 | 05  | ⭐⭐ | [Day5](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day5.py) |[Binary Boarding](https://adventofcode.com/2020/day/5) | 37.89 ms | 69.41 ms | 116 |
 | 06  | ⭐⭐ | [Day6](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day6.py) |[Custom Customs](https://adventofcode.com/2020/day/6) | 55.29 ms |  27.77 ms | 77 |
-| 07  |  | [Day7](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day7.py) |[Handy Haversacks](https://adventofcode.com/2020/day/7) |  |   |  |
+| 07  | ⭐⭐ | [Day7](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day7.py) |[Handy Haversacks](https://adventofcode.com/2020/day/7) | 33.52 ms | 26.65 ms | 107 |
