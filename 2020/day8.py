@@ -35,15 +35,15 @@ class gameConsole():
             else:
                 visited.add(self.idx)
             command = table[self.idx][0]    
-            movement = table[self.idx][1]
+            movement = int(table[self.idx][1])
             match command:
                 case "nop":
                     self.idx += 1
                 case "acc":
-                    accumulator += int(movement)
+                    accumulator += movement
                     self.idx += 1
                 case "jmp":
-                    self.idx += int(movement)
+                    self.idx += movement
 
     def pullReplaces(self): 
         replaces = []
