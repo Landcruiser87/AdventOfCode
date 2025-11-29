@@ -48,10 +48,9 @@ class Bags():
         global bagman
         localrules = self.rules[target]
         for rule in localrules:
-            key = rule
             count = localrules[rule]
             for _ in range(count):
-                bagman.append(x for x in self.countBags(key))
+                bagman.append(x for x in self.countBags(rule))
         return bagman
 
 def problemSolver(dataset:list, part:int)->int:
@@ -126,14 +125,14 @@ def main():
         exit()
     else:
         logger.info(f"part B possible solution: \n{resultB}\n")
-    support.submit_answer(DAY, YEAR, 2, resultB)
+    # support.submit_answer(DAY, YEAR, 2, resultB)
 
     #Recurse lines of code
     LOC = linecount(f'./{YEAR}/day{DAY}.py')
     logger.info(f"Lines of code: {LOC}")
 
     #Delete the cache after submission
-    # support._877_cache_now(".cache", True)
+    support._877_cache_now(".cache", True)
     
 if __name__ == "__main__":
     main()
