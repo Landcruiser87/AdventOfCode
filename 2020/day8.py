@@ -12,23 +12,63 @@ from dataclasses import dataclass, field
 DAY:int = 8 #datetime.now().day
 YEAR:int = 2020 #datetime.now().year
 
-def problemSolver(dataset:list, part:int)->int:
-    pass
+@dataclass
+class gameConsole():
+    idx         :int = 0
+    loops       :int = 0
+    accumulator :int = 0
+    inputText   :list = field(default_factory=lambda:[])
+    ops         :list = field(default_factory=lambda:[])
+    def makeInstructions(self):
+        for line in self.inputText:
+            key, val = line.split(" ")
+            self.ops.append((key, val))
 
+    def runCommands(self):
+        visited = set()
+        while True:
+            if self.idx in visited:
+                break
+            else:
+                visited.add(self.idx)
+            command = self.ops[self.idx][0]
+            movement = self.ops[self.idx][1]
+            match command:
+                case "nop":
+                    self.idx += 1
+                case "acc":
+                    self.accumulator += int(movement)
+                    self.idx += 1
+                case "jmp":
+                    self.idx += int(movement)
+        return
+
+    def runBoot(self):
+        while self.loops < 1:
+            self.runCommands()
+            self.loops += 1
+
+def problemSolver(dataset:list, part:int)->int:
+    con = gameConsole(inputText=dataset)
+    con.makeInstructions()
+    if part == 1:
+        con.runBoot()
+        return con.accumulator
+    
 @log_time
 def part_A():
     logger.info("Solving part A")
     #to check your cache status when you need cache nooooow call J.... G.... WENTWORTH. 
     support._877_cache_now() 
     #Pull puzzle description and testdata
-    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, False, -1)
+    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, False, -2)
     console.log(f"{tellstory}")
     logger.info("testdata table")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
     testcase = problemSolver(testdata, 1)
     #Assert testcase
-    assert testcase == 4, f"Test case A failed returned:{testcase}"
+    assert testcase == 5, f"Test case A failed returned:{testcase}"
     logger.info(f"Test case passed for part A")
     #Solve puzzle with full dataset
     answerA = problemSolver(data, 1)
