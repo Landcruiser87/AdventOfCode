@@ -6,14 +6,40 @@ sys.path.append(root_folder)
 from utils import support
 from utils.loc import linecount
 from utils.support import logger, console, log_time
+from dataclasses import dataclass
 
 #Set day/year global variables
 DAY:int = 10 #datetime.now().day
 YEAR:int = 2020 #datetime.now().year
 
+@dataclass
+class TwoChainz():
+    data:list = None
+    maxJolts:int = None
+    def chainOfFools(self) -> int:
+        oneJolts, threeJolts = 0, 0
+        pairs = self.data.copy()
+        while len(pairs) > 1:
+            resistor = pairs.pop(0)
+            minDist = min(pairs)
+            if minDist - resistor == 1:
+                oneJolts += 1
+            elif minDist - resistor == 3:
+                threeJolts += 1
+        #The last threejolt diff will always be 3 due to the adapter
+        threeJolts += 1
+        return oneJolts * threeJolts
+
+
 def problemSolver(dataset:list, part:int)->int:
+    data = sorted(list(map(int, dataset)))
+    data.insert(0, 0) #Add the wall charger
+    chainz = TwoChainz(data=data)
+    chainz.maxJolts = max(data) + 3
     if part == 1:
-        pass
+        total = chainz.chainOfFools()
+        return total
+    
     if part == 2:
         pass
 
@@ -30,7 +56,7 @@ def part_A():
     #Solve puzzle w/testcase
     testcase = problemSolver(testdata, 1)
     #Assert testcase
-    assert testcase == 10, f"Test case A failed returned:{testcase}"
+    assert testcase == 220, f"Test case A failed returned:{testcase}"
     logger.info(f"Test case passed for part A")
     #Solve puzzle with full dataset
     answerA = problemSolver(data, 1)
