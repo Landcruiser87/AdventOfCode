@@ -70,7 +70,7 @@ cache = percache.Cache(".cache", livesync=True)
 cache.expire = timedelta(hours=1)
 console = Console()
 logger = get_logger(console)
-
+BASE_HEADERS = {"User-Agent":"andyheroy@gmail.com"}
 
 ################################# Timing Funcs ##############################
 def log_time(fn):
@@ -151,7 +151,12 @@ def pull_puzzle(day:int, year:int, part:int, samplet:bool=True, tindex:int=None)
     """    
     logger.info("pulling puzzle data")
     url = f"{AOC_URL}/{year}/day/{day}"
-    response = requests.get(url, cookies=C_IS_4_COOKIE, timeout=10)
+    response = requests.get(
+        url, 
+        cookies = C_IS_4_COOKIE, 
+        headers = BASE_HEADERS,
+        timeout = 10
+    )
     
     #Be nice to the servers
     if response.status_code != 200:
@@ -194,8 +199,12 @@ def pull_inputdata(day:int, year:int)->str:
     """
     logger.info("pulling input data")
     url = f"{AOC_URL}/{year}/day/{day}/input"
-    response = requests.get(url, cookies=C_IS_4_COOKIE, timeout=10)
-    
+    response = requests.get(
+        url, 
+        cookies = C_IS_4_COOKIE, 
+        headers = BASE_HEADERS,
+        timeout = 10
+    ) 
     #Be nice to the servers
     if response.status_code != 200:
         # If there's an error, log it and return no data
@@ -253,6 +262,7 @@ def submit_answer(day:int, year:int, part:int, answer:Any=""):
         url = url,
         data = {"level":part, "answer":answer},
         cookies = C_IS_4_COOKIE, 
+        headers = BASE_HEADERS,
         timeout = 10
     )
     if response.status_code != 200:
