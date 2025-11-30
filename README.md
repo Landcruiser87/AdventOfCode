@@ -43,7 +43,7 @@ Each year is self contained to represent different years tools and / or files.  
 
 ### File running
 
-Being that there are multiple years here, file running can get a little tricky.  One way around it is to point your settings.json to whatever year you're working on as included in the sample below.  That will activate the appropriate years venv for usage in VSCode.  You also can run files as modules `python -m 2020.day1` which means you could remove giant line at the beginning of each script that adds the root folder to the path temporarily.  Up to you!
+Being that there are multiple years here, file running can get a little tricky.  One way around it is to point your settings.json to whatever year you're working on as included in the sample below.  That will activate the appropriate years venv for usage in VSCode so you can run files with whatever native VS code file running trickey you have set up. You also can run files as modules `python -m 2020.day1` which means you could remove giant line at the beginning of each script that adds the root folder to the path temporarily.  Up to you!
 
 ### Launch.json
 ```json
