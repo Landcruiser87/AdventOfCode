@@ -6,9 +6,6 @@ sys.path.append(root_folder)
 from utils import support
 from utils.loc import linecount
 from utils.support import logger, console, log_time
-from itertools import combinations
-from collections import deque
-from numpy.lib.stride_tricks import sliding_window_view as slide
 
 #Set day/year global variables
 DAY:int = 10 #datetime.now().day
@@ -33,7 +30,7 @@ def part_A():
     #Solve puzzle w/testcase
     testcase = problemSolver(testdata, 1)
     #Assert testcase
-    assert testcase == 127, f"Test case A failed returned:{testcase}"
+    assert testcase == 10, f"Test case A failed returned:{testcase}"
     logger.info(f"Test case passed for part A")
     #Solve puzzle with full dataset
     answerA = problemSolver(data, 1)

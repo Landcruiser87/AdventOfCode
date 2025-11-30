@@ -66,11 +66,13 @@ AOC_URL = "https://adventofcode.com"
 with open("./secret/cookie.txt", "r") as f:
     C_IS_4_COOKIE = {"session":f.readline()}
 
+with open("./secret/last.txt", "r") as f:
+    BASE_HEADERS = {"User-Agent":f.readline()}
+
 cache = percache.Cache(".cache", livesync=True)
 cache.expire = timedelta(hours=1)
 console = Console()
 logger = get_logger(console)
-BASE_HEADERS = {"User-Agent":"andyheroy@gmail.com"}
 
 ################################# Timing Funcs ##############################
 def log_time(fn):
