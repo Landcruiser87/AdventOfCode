@@ -8,6 +8,7 @@ from utils.loc import linecount
 from utils.support import logger, console, log_time
 from itertools import combinations
 from collections import deque
+from numpy.lib.stride_tricks import sliding_window_view as slide
 
 #Set day/year global variables
 DAY:int = 9 #datetime.now().day
@@ -18,7 +19,7 @@ def checkSums(window:list, target:int):
     que = deque(combinations(window, 2))
     while que:
         x, y = que.popleft()
-        if x + y == target:
+        if (x + y == target) & (x != y):
             sums += 1
 
     if sums != 0:
@@ -34,15 +35,23 @@ def decode(data:list, preamble:int):
             idx += 1
         else:
             return row
+        
+def window(data:list, badNum:int):
+    for rngSize in range(2, len(data)):
+        cRng = slide(data, rngSize)
+        for rng in cRng:
+            if sum(rng) == badNum:
+                return min(rng) + max(rng)
 
 def problemSolver(dataset:list, part:int, preamble:int)->int:
     data = list(map(int, dataset))
+    badNum = decode(data, preamble)
     if part == 1:
-        first = decode(data, preamble)
-        return first
+        return badNum
     if part == 2:
-        pass
-
+        rngSum = window(data, badNum)
+        return rngSum
+    
 @log_time
 def part_A():
     logger.info("Solving part A")
@@ -72,12 +81,12 @@ def part_B():
     console.log(f"{tellstory}")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
-    testcase = problemSolver(testdata, 2)
+    testcase = problemSolver(testdata, 2, 5)
     #Assert testcase
-    assert testcase == 8, f"Test case B failed returned:{testcase}"
+    assert testcase == 62, f"Test case B failed returned:{testcase}"
     logger.info(f"Test case: {testcase} passed for part B")
     #Solve puzzle with full dataset
-    answerB = problemSolver(data, 2)
+    answerB = problemSolver(data, 2, 25)
     return answerB
 
 def main():
@@ -91,17 +100,17 @@ def main():
         exit()
     else:
         logger.info(f"part A possible solution: \n{resultA}\n")
-    support.submit_answer(DAY, YEAR, 1, resultA)
+    # support.submit_answer(DAY, YEAR, 1, resultA)
 
     #Solve part B
-    # resultB = part_B()
-    # fails = [252]
-    # if resultB in fails:
-    #     logger.warning(f"Answer already submitted\nAnswer: {resultB}")
-    #     exit()
-    # else:
-    #     logger.info(f"part B possible solution: \n{resultB}\n")
-    # support.submit_answer(DAY, YEAR, 2, resultB)
+    resultB = part_B()
+    fails = [252]
+    if resultB in fails:
+        logger.warning(f"Answer already submitted\nAnswer: {resultB}")
+        exit()
+    else:
+        logger.info(f"part B possible solution: \n{resultB}\n")
+    support.submit_answer(DAY, YEAR, 2, resultB)
 
     #Recurse lines of code
     LOC = linecount(f'./{YEAR}/day{DAY}.py')
