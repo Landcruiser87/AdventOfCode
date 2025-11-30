@@ -11,30 +11,34 @@ Each year is self contained to represent different years tools and / or files.  
 
 ```terminal 
     |────AdventOfCode
-    |    ├── .vscode                    <- .vscode folder
-    |    |   ├── launch.json            <- json launch file
-    |    |   └── settings.json          <- json settings file
-    |    ├── 2023                       <- Year attempt
-    |    ├── 2024                       <- Year attempt
-    |    ├── 2025                       <- Year attempt
-    |    |   ├── .venv                  <- Virtual environment for that year
-    |    |   ├── day1.py                <- Day1 py file
-    |    |   ├── day2.py                <- Day2 py file
-    |    |   ├── poetry.lock            <- Locked file of libarary dependency versions
-    |    |   └── pyproject.toml         <- Toml file with main libraries
-    |    ├── secret                     <- For the secrets
-    |    |   └── cookie.text            <- C is for cookie!!!!
-    |    ├── utils                      <- Utils Folder
-    |    |   ├── __init__.py            <- For module imports
-    |    |   ├── day_template.py        <- Basic template for start
-    |    |   ├── loc.py                 <- Py file to count lines of code
-    |    |   └── support.py             <- Support functions for supporting actions
-    |    ├── .gitignore                 <- .gitignore file for keeping files out of github
-    |    ├── .cache.bak                 <- Cash
-    |    ├── .cache.dat                 <- Moves
-    |    ├── .cache.dir                 <- everything around me
-    |    └── README.md                  <- Overall README for monorepo
+    |    ├── .vscode              <- .vscode folder
+    |    |   ├── launch.json      <- json launch file
+    |    |   └── settings.json    <- json settings file
+    |    ├── 2023                 <- Year attempt
+    |    ├── 2024                 <- Year attempt
+    |    ├── 2025                 <- Year attempt
+    |    |   ├── .venv            <- Virtual environment for that year
+    |    |   ├── day1.py          <- Day1 py file
+    |    |   ├── day2.py          <- Day2 py file
+    |    |   ├── poetry.lock      <- Lock file of libarary dependency versions
+    |    |   └── pyproject.toml   <- Toml file with main libraries
+    |    ├── secret               <- For the secrets
+    |    |   └── cookie.text      <- C is for cookie!!!!
+    |    ├── utils                <- Utils Folder
+    |    |   ├── __init__.py      <- For module imports
+    |    |   ├── day_template.py  <- Basic template for start
+    |    |   ├── loc.py           <- Py file to count lines of code
+    |    |   └── support.py       <- Support functions for supporting actions
+    |    ├── .gitignore           <- .gitignore file for keeping files out of github
+    |    ├── .cache.bak           <- cache
+    |    ├── .cache.dat           <- moves
+    |    ├── .cache.dir           <- everything around me (temp files that store the scraped data)
+    |    └── README.md            <- Overall README for monorepo
 ```
+
+### File running
+
+Being that there are multiple years here, file running can get a little tricky.  One way around it is to point your settings.json to whatever year you're working on as included in the sample below.  That will activate the appropriate years venv for usage in VSCode.  You also can run files as modules `python -m 2020.day1` which means you could remove giant line at the beginning of each script that adds the root folder to the path temporarily.  Up to you!
 
 ### Launch.json
 ```json
