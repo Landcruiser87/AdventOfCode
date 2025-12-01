@@ -23,7 +23,6 @@ class SafeCracker():
     def rotate(self, instruction:str):
         turn = instruction[0]
         amount = int(instruction.strip()[1:])
-        start = self.dial
         match turn:
             case "L":
                 self.dial -= amount
@@ -32,12 +31,14 @@ class SafeCracker():
 
         while self.dial not in self.dRange:
             if self.dial > 99:
+                crossed = self.dial - 100 in self.dRange
                 self.dial -= 100
             elif self.dial < 0:
+                crossed = self.dial + 100 in self.dRange
                 self.dial += 100
             else:
                 break
-            crossed = self.crossCheck(start, amount, turn)
+
             if crossed:
                 self.zeroCross += 1
 
@@ -45,15 +46,17 @@ class SafeCracker():
             self.zeroStop += 1
         # logger.info(f"current: {self.dial}")
 
-    def crossCheck(self, start:int, amount:int, turn:str):
-        if self.dial == 0:
+    def crossCheck(self, turn:str):
+        if self.dial in [0, 100]:
+            if self.dial == 100:
+                self.dial = 0
             return False
         if turn == "L":
-            if (start - amount) not in self.dRange:
+            if not (self.dial - 100) in self.dRange:
                 self.zeroCross += 1
                 return True
         elif turn == "R":
-            if (start + amount) not in self.dRange:
+            if not (self.dial + 100) in self.dRange:
                 self.zeroCross += 1
                 return True
             
