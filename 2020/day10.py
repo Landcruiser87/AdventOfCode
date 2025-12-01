@@ -29,6 +29,10 @@ class TwoChainz():
         #The last threejolt diff will always be 3 due to the adapter
         threeJolts += 1
         return oneJolts * threeJolts
+    
+    def pathFinder(self) -> int:
+        pass
+        #Build a shitload of possible paths.  BFS? DFS?
 
 
 def problemSolver(dataset:list, part:int)->int:
@@ -36,12 +40,14 @@ def problemSolver(dataset:list, part:int)->int:
     data.insert(0, 0) #Add the wall charger
     chainz = TwoChainz(data=data)
     chainz.maxJolts = max(data) + 3
+
     if part == 1:
         total = chainz.chainOfFools()
         return total
     
     if part == 2:
-        pass
+        total = chainz.pathFinder()
+        return total
 
 @log_time
 def part_A():
@@ -49,7 +55,7 @@ def part_A():
     #to check your cache status when you need cache nooooow call J.... G.... WENTWORTH. 
     support._877_cache_now() 
     #Pull puzzle description and testdata
-    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, False, -1)
+    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, False, -3)
     console.log(f"{tellstory}")
     logger.info("testdata table")
     [logger.info(row) for row in testdata]
@@ -68,13 +74,13 @@ def part_B():
     #Check cache status
     support._877_cache_now()
     #Pull puzzle description and testdata
-    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2, False, -1)
+    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2, False, -3)
     console.log(f"{tellstory}")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
     testcase = problemSolver(testdata, 2)
     #Assert testcase
-    assert testcase == 62, f"Test case B failed returned:{testcase}"
+    assert testcase == 19208, f"Test case B failed returned:{testcase}"
     logger.info(f"Test case: {testcase} passed for part B")
     #Solve puzzle with full dataset
     answerB = problemSolver(data, 2)
@@ -94,13 +100,13 @@ def main():
     # support.submit_answer(DAY, YEAR, 1, resultA)
 
     #Solve part B
-    # resultB = part_B()
-    # fails = [252]
-    # if resultB in fails:
-    #     logger.warning(f"Answer already submitted\nAnswer: {resultB}")
-    #     exit()
-    # else:
-    #     logger.info(f"part B possible solution: \n{resultB}\n")
+    resultB = part_B()
+    fails = [252]
+    if resultB in fails:
+        logger.warning(f"Answer already submitted\nAnswer: {resultB}")
+        exit()
+    else:
+        logger.info(f"part B possible solution: \n{resultB}\n")
     # support.submit_answer(DAY, YEAR, 2, resultB)
 
     #Recurse lines of code
