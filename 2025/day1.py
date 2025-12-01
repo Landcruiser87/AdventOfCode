@@ -7,7 +7,6 @@ from utils import support
 from utils.loc import linecount
 from utils.support import logger, console, log_time
 from dataclasses import dataclass
-from itertools import cycle
 
 #Set day/year global variables
 DAY:int = 1 #datetime.now().day
@@ -15,40 +14,67 @@ YEAR:int = 2025 #datetime.now().year
 
 @dataclass
 class SafeCracker():
-    zeroC:int = 0
     dial:int = 50
+    zeroStop:int = 0
+    zeroCross:int = 0
     instructions:str = None
-    dRange:list[int] = range(0, 99)
+    dRange:list[int] = range(0, 100)
+
     def rotate(self, instruction:str):
         turn = instruction[0]
-        amount = int(instruction[1:])
-        if turn == "L":
-            self.dial = self.dial - amount
-        elif turn == "R":
-            self.dial = self.dial + amount
-        while True:
+        amount = int(instruction.strip()[1:])
+        start = self.dial
+        match turn:
+            case "L":
+                self.dial -= amount
+            case "R":
+                self.dial += amount 
+
+        while self.dial not in self.dRange:
             if self.dial > 99:
-                self.dial = self.dial - 100
+                self.dial -= 100
             elif self.dial < 0:
-                self.dial = 100 - abs(self.dial)
-            if abs(self.dial) < 100:
+                self.dial += 100
+            else:
                 break
+            crossed = self.crossCheck(start, amount, turn)
+            if crossed:
+                self.zeroCross += 1
 
         if self.dial == 0:
-            self.zeroC += 1
-        # logger.info(f"current:{self.dial}")
+            self.zeroStop += 1
+        # logger.info(f"current: {self.dial}")
+
+    def crossCheck(self, start:int, amount:int, turn:str):
+        if self.dial == 0:
+            return False
+        if turn == "L":
+            if (start - amount) not in self.dRange:
+                self.zeroCross += 1
+                return True
+        elif turn == "R":
+            if (start + amount) not in self.dRange:
+                self.zeroCross += 1
+                return True
+            
+        return False
+        # self.dial += self.dial // 100 - (self.dial - amount) // 100
+        # self.dial += (self.dial - amount) // 100 - self.dial // 100
 
 def problemSolver(dataset:list, part:int)->int:
-    safe = SafeCracker(instructions=dataset)
     #Count the number of times the safe dial hits zero!
     if part == 1:
+        safe = SafeCracker(instructions=dataset)
         for turn in safe.instructions:
             safe.rotate(turn)
-        return safe.zeroC
+        return safe.zeroStop
     
     if part == 2:
-        pass
-
+        safe = SafeCracker(instructions=dataset)
+        for turn in safe.instructions:
+            safe.rotate(turn)
+        return safe.zeroStop + safe.zeroCross
+    
 @log_time
 def part_A():
     logger.info("Solving part A")
@@ -80,7 +106,7 @@ def part_B():
     #Solve puzzle w/testcase
     testcase = problemSolver(testdata, 2)
     #Assert testcase
-    assert testcase == 19208, f"Test case B failed returned:{testcase}"
+    assert testcase == 6, f"Test case B failed returned:{testcase}"
     logger.info(f"Test case: {testcase} passed for part B")
     #Solve puzzle with full dataset
     answerB = problemSolver(data, 2)
@@ -100,13 +126,13 @@ def main():
     support.submit_answer(DAY, YEAR, 1, resultA)
 
     #Solve part B
-    # resultB = part_B()
-    # fails = [252]
-    # if resultB in fails:
-    #     logger.warning(f"Answer already submitted\nAnswer: {resultB}")
-    #     exit()
-    # else:
-    #     logger.info(f"part B possible solution: \n{resultB}\n")
+    resultB = part_B()
+    fails = [2408, 5126, 5239]
+    if resultB in fails:
+        logger.warning(f"Answer already submitted\nAnswer: {resultB}")
+        exit()
+    else:
+        logger.info(f"part B possible solution: \n{resultB}\n")
     # support.submit_answer(DAY, YEAR, 2, resultB)
 
     #Recurse lines of code
