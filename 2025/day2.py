@@ -32,21 +32,12 @@ def checkRepeats(row:str):
     baseRange = range(int(start), int(stop) + 1)
     for rng in baseRange:
         strRng = str(rng)
-        if strRng == "1188511881":
-            logger.info("yo")
-        for x in range(1, len(strRng) + 1):
-            midpoint = len(strRng[:x]) / 2
-            count = strRng.count(strRng[:midpoint])
-            if midpoint > 0:
-                #Single repeats
-                if count == len(strRng):
-                    invalidIDs.add(strRng)
-                    logger.info(f"res found {strRng}")
-                #If we're matching first half // last half
-                elif strRng[:midpoint] == strRng[midpoint:]:
-                    invalidIDs.add(strRng)
-                    logger.info(f"res found {strRng}")
-                # if we're matching all repeating numbers
+        if strRng[0] == "0":
+            continue
+        #For todays trick.  Add the string to itself, then select the 1st to 1st to last.  Creating a sliding window for eval
+        if strRng in (strRng + strRng)[1:-1]:
+            invalidIDs.add(strRng)                
+            # logger.info(f"res {strRng}")
 
     return list(map(int, invalidIDs))
 
