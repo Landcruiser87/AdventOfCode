@@ -18,8 +18,6 @@ class SafeCracker():
     zeroStop:int = 0
     zeroCross:int = 0
     instructions:str = None
-    dRange:list[int] = range(0, 100)
-
     def rotate(self):
         for instruction in self.instructions:
             turn = instruction[0]
