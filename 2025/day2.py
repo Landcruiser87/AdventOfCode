@@ -12,7 +12,7 @@ from collections import Counter
 DAY:int = 2 #datetime.now().day
 YEAR:int = 2025 #datetime.now().year
 
-def checkRepeats(row):
+def checkSplit(row:str):
     start, stop = row.split("-")
     invalidIDs = []
     baseRange = range(int(start), int(stop) + 1)
@@ -23,27 +23,53 @@ def checkRepeats(row):
         if stri[:midpoint] == stri[midpoint:]:
             invalidIDs.append(i)
             # logger.info(f"res found {i}")
+        
     return invalidIDs
 
-def invalid(data:list):
+def checkRepeats(row:str):
+    start, stop = row.split("-")
+    invalidIDs = set()
+    baseRange = range(int(start), int(stop) + 1)
+    for rng in baseRange:
+        strRng = str(rng)
+        if strRng == "1188511881":
+            logger.info("yo")
+        for x in range(1, len(strRng) + 1):
+            midpoint = len(strRng[:x]) / 2
+            count = strRng.count(strRng[:midpoint])
+            if midpoint > 0:
+                #Single repeats
+                if count == len(strRng):
+                    invalidIDs.add(strRng)
+                    logger.info(f"res found {strRng}")
+                #If we're matching first half // last half
+                elif strRng[:midpoint] == strRng[midpoint:]:
+                    invalidIDs.add(strRng)
+                    logger.info(f"res found {strRng}")
+                # if we're matching all repeating numbers
+
+    return list(map(int, invalidIDs))
+
+def invalid(data:list, part:int):
     invalids = []
     for row in data:
-        repeats = checkRepeats(row)
-        if repeats:
-            invalids.extend(repeats)
+        if part == 1:
+            repeats = checkSplit(row)
+        elif part == 2:
+            repeats = checkRepeats(row)        
+        invalids.extend(repeats)
+
     return invalids
 
 def problemSolver(dataset:list, part:int, test:bool=False)->int:
+    #Test data comes in a little wierd
     if test:
         data = "".join(dataset).split(",")
     else:
         data = dataset[0].split(",")
     #Count the number of times the safe dial hits zero!
-    if part == 1:
-        invalids = invalid(data)
-        return sum(invalids)
-    if part == 2:
-        pass
+    invalids = invalid(data, part)
+    return sum(invalids)
 
 @log_time
 def part_A():
@@ -74,9 +100,9 @@ def part_B():
     console.log(f"{tellstory}")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
-    testcase = problemSolver(testdata, 2)
+    testcase = problemSolver(testdata, 2, True)
     #Assert testcase
-    assert testcase == 6, f"Test case B failed returned:{testcase}"
+    assert testcase == 4174379265, f"Test case B failed returned:{testcase}"
     logger.info(f"Test case: {testcase} passed for part B")
     #Solve puzzle with full dataset
     answerB = problemSolver(data, 2)
@@ -119,4 +145,4 @@ if __name__ == "__main__":
 #Notes
 #Part A Notes
 # Main thing here is to count any number in a range that repeats itself.  This can be multiple length numbers depending on how huge the input gets.  
-# Which knowing Eric, will proably be massive. 
+# Which knowing Eric, will probably be massive. 

@@ -30,9 +30,8 @@ class SafeCracker():
             #Crank it up~!
             for x in range(amount):
                 self.dial = (self.dial + direction) % 100
-                #Crossing zero conditions
-                #need to catch the edge case where it both stops on zero and crosses zero on the last click
-                if (self.dial == 0) & (x != (amount - 1)): # & (x != 0)
+                #Crossing zero conditions.  Need to catch the edge case where it both stops on zero and crosses zero on the last click
+                if (self.dial == 0) & (x != (amount - 1)):
                     self.zeroCross += 1
             
             # Zero Stop condition
@@ -40,14 +39,6 @@ class SafeCracker():
                 self.zeroStop += 1
             # logger.info(f"current: {self.dial}")
 
-        # Tried just calculating how many total rotations, but 
-        # Kept getting edge case errors on part B 
-            # toZero = self.dial or 100
-            # toZero = 100 - self.dial
-        # self.dial = (self.dial + direction * amount) % 100
-        # if amount > toZero:
-        #     self.zeroCross += (amount - toZero) // 100 + 1
-            
 def problemSolver(dataset:list, part:int)->int:
     #Count the number of times the safe dial hits zero!
     if part == 1:
@@ -133,3 +124,14 @@ if __name__ == "__main__":
 ########################################################
 #Notes
 #Part A Notes
+
+
+
+        # Tried just calculating how many total rotations, but 
+        # Kept getting edge case errors on part B 
+            # toZero = self.dial or 100
+            # toZero = 100 - self.dial
+        # self.dial = (self.dial + direction * amount) % 100
+        # if amount > toZero:
+        #     self.zeroCross += (amount - toZero) // 100 + 1
+     
