@@ -6,7 +6,6 @@ sys.path.append(root_folder)
 from utils import support
 from utils.loc import linecount
 from utils.support import logger, console, log_time
-from collections import Counter
 
 #Set day/year global variables
 DAY:int = 2 #datetime.now().day
