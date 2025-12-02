@@ -20,63 +20,47 @@ class SafeCracker():
     instructions:str = None
     dRange:list[int] = range(0, 100)
 
-    def rotate(self, instruction:str):
-        turn = instruction[0]
-        amount = int(instruction.strip()[1:])
-        match turn:
-            case "L":
-                self.dial -= amount
-            case "R":
-                self.dial += amount 
+    def rotate(self):
+        for instruction in self.instructions:
+            turn = instruction[0]
+            amount = int(instruction.strip()[1:])
+            match turn:
+                case "L":
+                    direction = -1
+                case "R":
+                    direction = 1
+            #Crank it up~!
+            for x in range(amount):
+                self.dial = (self.dial + direction) % 100
+                #Crossing zero conditions
+                if (self.dial == 0) & (x != (amount - 1)): # & (x != 0)
+                    self.zeroCross += 1
 
-        while self.dial not in self.dRange:
-            if self.dial > 99:
-                crossed = 0 in range(self.dial - 100, self.dial)
-                self.dial -= 100
-            elif self.dial < 0:
-                crossed = 0 in range(self.dial, self.dial + 100)
-                self.dial += 100
-            else:
-                break
-
-            if crossed:
-                self.zeroCross += 1
-
-        if self.dial == 0:
-            self.zeroStop += 1
-        # logger.info(f"current: {self.dial}")
-
-    def crossCheck(self, turn:str):
-        if self.dial in [0, 100]:
-            if self.dial == 100:
-                self.dial = 0
-            return False
-        if turn == "L":
-            if not (self.dial - 100) in self.dRange:
-                self.zeroCross += 1
-                return True
-        elif turn == "R":
-            if not (self.dial + 100) in self.dRange:
-                self.zeroCross += 1
-                return True
             
-        return False
-        # self.dial += self.dial // 100 - (self.dial - amount) // 100
-        # self.dial += (self.dial - amount) // 100 - self.dial // 100
-
+            # Zero Stop condition
+            if self.dial == 0:
+                self.zeroStop += 1
+            # logger.info(f"current: {self.dial}")
+            
+        # Tried just calculating how many total rotations, but 
+        # Kept getting edge case errors on part B 
+            # toZero = self.dial or 100
+            # toZero = 100 - self.dial
+        # self.dial = (self.dial + direction * amount) % 100
+        # if amount > toZero:
+        #     self.zeroCross += (amount - toZero) // 100 + 1
+            
 def problemSolver(dataset:list, part:int)->int:
     #Count the number of times the safe dial hits zero!
     if part == 1:
         safe = SafeCracker(instructions=dataset)
-        for turn in safe.instructions:
-            safe.rotate(turn)
+        safe.rotate()
         return safe.zeroStop
     
     if part == 2:
         safe = SafeCracker(instructions=dataset)
-        for turn in safe.instructions:
-            safe.rotate(turn)
-        return safe.zeroStop + safe.zeroCross
+        safe.rotate() 
+    return safe.zeroStop + safe.zeroCross
     
 @log_time
 def part_A():
@@ -126,17 +110,17 @@ def main():
         exit()
     else:
         logger.info(f"part A possible solution: \n{resultA}\n")
-    support.submit_answer(DAY, YEAR, 1, resultA)
+    # support.submit_answer(DAY, YEAR, 1, resultA)
 
     #Solve part B
     resultB = part_B()
-    fails = [2408, 5126, 5239]
+    fails = [2408, 5126, 5239, 5328, 6586]
     if resultB in fails:
         logger.warning(f"Answer already submitted\nAnswer: {resultB}")
         exit()
     else:
         logger.info(f"part B possible solution: \n{resultB}\n")
-    # support.submit_answer(DAY, YEAR, 2, resultB)
+    support.submit_answer(DAY, YEAR, 2, resultB)
 
     #Recurse lines of code
     LOC = linecount(f'./{YEAR}/day{DAY}.py')
