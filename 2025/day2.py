@@ -6,16 +6,42 @@ sys.path.append(root_folder)
 from utils import support
 from utils.loc import linecount
 from utils.support import logger, console, log_time
-from dataclasses import dataclass
+from collections import Counter
 
 #Set day/year global variables
-DAY:int = 1 #datetime.now().day
+DAY:int = 2 #datetime.now().day
 YEAR:int = 2025 #datetime.now().year
-        
-def problemSolver(dataset:list, part:int)->int:
+
+def checkRepeats(row):
+    start, stop = row.split("-")
+    invalidIDs = []
+    baseRange = range(int(start), int(stop) + 1)
+    for i in baseRange:
+        stri = str(i)
+        length = len(stri)
+        midpoint = length // 2
+        if stri[:midpoint] == stri[midpoint:]:
+            invalidIDs.append(i)
+            # logger.info(f"res found {i}")
+    return invalidIDs
+
+def invalid(data:list):
+    invalids = []
+    for row in data:
+        repeats = checkRepeats(row)
+        if repeats:
+            invalids.extend(repeats)
+    return invalids
+
+def problemSolver(dataset:list, part:int, test:bool=False)->int:
+    if test:
+        data = "".join(dataset).split(",")
+    else:
+        data = dataset[0].split(",")
     #Count the number of times the safe dial hits zero!
     if part == 1:
-        pass
+        invalids = invalid(data)
+        return sum(invalids)
     if part == 2:
         pass
 
@@ -30,9 +56,9 @@ def part_A():
     logger.info("testdata table")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
-    testcase = problemSolver(testdata, 1)
+    testcase = problemSolver(testdata, 1, True)
     #Assert testcase
-    assert testcase == 3, f"Test case A failed returned:{testcase}"
+    assert testcase == 1227775554, f"Test case A failed returned:{testcase}"
     logger.info(f"Test case passed for part A")
     #Solve puzzle with full dataset
     answerA = problemSolver(data, 1)
@@ -92,3 +118,5 @@ if __name__ == "__main__":
 ########################################################
 #Notes
 #Part A Notes
+# Main thing here is to count any number in a range that repeats itself.  This can be multiple length numbers depending on how huge the input gets.  
+# Which knowing Eric, will proably be massive. 
