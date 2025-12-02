@@ -31,10 +31,10 @@ class SafeCracker():
 
         while self.dial not in self.dRange:
             if self.dial > 99:
-                crossed = self.dial - 100 in self.dRange
+                crossed = 0 in range(self.dial - 100, self.dial)
                 self.dial -= 100
             elif self.dial < 0:
-                crossed = self.dial + 100 in self.dRange
+                crossed = 0 in range(self.dial, self.dial + 100)
                 self.dial += 100
             else:
                 break
