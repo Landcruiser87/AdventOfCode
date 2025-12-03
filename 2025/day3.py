@@ -13,21 +13,39 @@ import numpy as np
 DAY:int = 3 #datetime.now().day
 YEAR:int = 2025 #datetime.now().year
 
-def calc_joltages(banks:list, length:int):
+def calc_joltages(banks:list, length:int)->list:
     res = []
     for row in banks:
-        combo_nation = ["".join(pair) for pair in combinations(row, length)]
+        combo_nation = ("".join(pair) for pair in combinations(row, length))
         mapped = list(map(int, combo_nation))
         topj = np.argmax(mapped)
         res.append(mapped[topj])
     return res
 
-def problem_solver(dataset:list, part:int, test:bool=False)->int:
+def calc_big(banks:list, length:int)->list:
+    results = []
+    for row in banks:
+        start_id = 0
+        remaining = length
+        temp = []
+        for _ in range(length):
+            end_id = len(row) - (remaining - 1)
+            search = row[start_id:end_id]
+            max_d = max(search)
+            temp.append(max_d)
+            rel_idx = search.index(max_d)
+            start_id += rel_idx + 1
+            remaining -= 1
+        results.append("".join(temp))
+    return list(map(int, results))
+
+def problem_solver(dataset:list, part:int)->int:
     if part == 1:
         res = calc_joltages(dataset, 2)
     elif part == 2:
-        res = calc_joltages(dataset, 12)
+        res = calc_big(dataset, 12)
     return sum(res)
+
 @log_time
 def part_A():
     logger.info("Solving part A")
@@ -39,7 +57,7 @@ def part_A():
     logger.info("testdata table")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
-    testcase = problem_solver(testdata, 1, True)
+    testcase = problem_solver(testdata, 1)
     #Assert testcase
     assert testcase == 357, f"Test case A failed returned:{testcase}"
     logger.info(f"Test case passed for part A")
@@ -57,7 +75,7 @@ def part_B():
     console.log(f"{tellstory}")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
-    testcase = problem_solver(testdata, 2, True)
+    testcase = problem_solver(testdata, 2)
     #Assert testcase
     assert testcase == 3121910778619, f"Test case B failed returned:{testcase}"
     logger.info(f"Test case: {testcase} passed for part B")
@@ -93,7 +111,7 @@ def main():
     logger.info(f"Lines of code: {LOC}")
 
     #Delete the cache after submission
-    # support._877_cache_now(".cache", True)
+    support._877_cache_now(".cache", True)
     
 if __name__ == "__main__":
     main()
@@ -108,4 +126,5 @@ if __name__ == "__main__":
 ########################################################
 #Part B Notes
 #Well In usual Eric fashion he hits us with a memory error when trying to use combinations at the larger
-#battery bank level.  Maaaaybe use hashmap?  Memoization?  
+#battery bank level.  Maaaaybe use hashmap?  Memoization?  Nahhh.  Lets create a slide window to move
+#down the line. 

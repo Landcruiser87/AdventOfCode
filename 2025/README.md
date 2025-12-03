@@ -29,4 +29,4 @@ If you're using VSCode your env can be tied to the year you're using by changing
 | --- | ----- | ---- | ---------------------------------------------------------------- | ----- | ----- | --- | 
 | 01  | ⭐⭐ | [Day1](https://github.com/Landcruiser87/AdventOfCode/blob/main/2025/day1.py) |[Secret Entrance](https://adventofcode.com/2025/day/1) | 29.01 ms | 27.65 ms | 87 |
 | 02  | ⭐⭐ | [Day2](https://github.com/Landcruiser87/AdventOfCode/blob/main/2025/day2.py) |[Gift Shop](https://adventofcode.com/2025/day/2) | 298.08 ms | 317.17 ms | 95 |
-| 03  | ⭐ | [Day3](https://github.com/Landcruiser87/AdventOfCode/blob/main/2025/day3.py) |[Lobby](https://adventofcode.com/2025/day/3) | 128.66 ms |  ms | 62 |
+| 03  | ⭐⭐ | [Day3](https://github.com/Landcruiser87/AdventOfCode/blob/main/2025/day3.py) |[Lobby](https://adventofcode.com/2025/day/3) | 128.66 ms | 29.40 ms | 88 |
