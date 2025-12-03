@@ -33,9 +33,8 @@ def checkRepeats(row:str):
         strRng = str(rng)
         if strRng[0] == "0":
             continue
-        #Add the string to itself, then select the 1st to 1st to last.  Creating a sliding window for eval
         if strRng in (strRng + strRng)[1:-1]:
-            invalidIDs.add(strRng)                
+            invalidIDs.add(strRng)            
             # logger.info(f"res {strRng}")
 
     return list(map(int, invalidIDs))
