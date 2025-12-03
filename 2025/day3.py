@@ -20,6 +20,7 @@ def calc_joltages(banks:list, length:int)->list:
         mapped = list(map(int, combo_nation))
         topj = np.argmax(mapped)
         res.append(mapped[topj])
+        
     return res
 
 def calc_big(banks:list, length:int)->list:
