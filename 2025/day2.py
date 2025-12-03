@@ -11,46 +11,46 @@ from utils.support import logger, console, log_time
 DAY:int = 2 #datetime.now().day
 YEAR:int = 2025 #datetime.now().year
 
-def checkSplit(row:str):
+def check_split(row:str):
     start, stop = row.split("-")
-    invalidIDs = []
-    baseRange = range(int(start), int(stop) + 1)
-    for i in baseRange:
+    invalid_ids = []
+    base_range = range(int(start), int(stop) + 1)
+    for i in base_range:
         stri = str(i)
         length = len(stri)
         midpoint = length // 2
         if stri[:midpoint] == stri[midpoint:]:
-            invalidIDs.append(i)
+            invalid_ids.append(i)
             # logger.info(f"res found {i}")
         
-    return invalidIDs
+    return invalid_ids
 
-def checkRepeats(row:str):
+def check_repeats(row:str):
     start, stop = row.split("-")
-    invalidIDs = set()
-    baseRange = range(int(start), int(stop) + 1)
-    for rng in baseRange:
+    invalid_ids = set()
+    base_range = range(int(start), int(stop) + 1)
+    for rng in base_range:
         strRng = str(rng)
         if strRng[0] == "0":
             continue
         if strRng in (strRng + strRng)[1:-1]:
-            invalidIDs.add(strRng)            
+            invalid_ids.add(strRng)            
             # logger.info(f"res {strRng}")
 
-    return list(map(int, invalidIDs))
+    return list(map(int, invalid_ids))
 
 def invalid(data:list, part:int):
     invalids = []
     for row in data:
         if part == 1:
-            repeats = checkSplit(row)
+            repeats = check_split(row)
         elif part == 2:
-            repeats = checkRepeats(row)        
+            repeats = check_repeats(row)        
         invalids.extend(repeats)
 
     return invalids
 
-def problemSolver(dataset:list, part:int, test:bool=False)->int:
+def problem_solver(dataset:list, part:int, test:bool=False)->int:
     #Test data comes in a little wierd
     if test:
         data = "".join(dataset).split(",")
@@ -71,12 +71,12 @@ def part_A():
     logger.info("testdata table")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
-    testcase = problemSolver(testdata, 1, True)
+    testcase = problem_solver(testdata, 1, True)
     #Assert testcase
     assert testcase == 1227775554, f"Test case A failed returned:{testcase}"
     logger.info(f"Test case passed for part A")
     #Solve puzzle with full dataset
-    answerA = problemSolver(data, 1)
+    answerA = problem_solver(data, 1)
     return answerA
 
 @log_time
@@ -89,12 +89,12 @@ def part_B():
     console.log(f"{tellstory}")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
-    testcase = problemSolver(testdata, 2, True)
+    testcase = problem_solver(testdata, 2, True)
     #Assert testcase
     assert testcase == 4174379265, f"Test case B failed returned:{testcase}"
     logger.info(f"Test case: {testcase} passed for part B")
     #Solve puzzle with full dataset
-    answerB = problemSolver(data, 2)
+    answerB = problem_solver(data, 2)
     return answerB
 
 def main():

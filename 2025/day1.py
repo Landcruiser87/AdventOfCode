@@ -15,8 +15,8 @@ YEAR:int = 2025 #datetime.now().year
 @dataclass
 class SafeCracker():
     dial:int = 50
-    zeroStop:int = 0
-    zeroCross:int = 0
+    zero_stop:int = 0
+    zero_cross:int = 0
     instructions:str = None
     def rotate(self):
         for instruction in self.instructions:
@@ -32,24 +32,24 @@ class SafeCracker():
                 self.dial = (self.dial + direction) % 100
                 #Crossing zero conditions.  Need to catch the edge case where it both stops on zero and crosses zero on the last click
                 if (self.dial == 0) & (x != (amount - 1)):
-                    self.zeroCross += 1
+                    self.zero_cross += 1
             
             # Zero Stop condition
             if self.dial == 0:
-                self.zeroStop += 1
+                self.zero_stop += 1
             # logger.info(f"current: {self.dial}")
 
-def problemSolver(dataset:list, part:int)->int:
+def problem_solver(dataset:list, part:int)->int:
     #Count the number of times the safe dial hits zero!
     if part == 1:
         safe = SafeCracker(instructions=dataset)
         safe.rotate()
-        return safe.zeroStop
+        return safe.zero_stop
     
     if part == 2:
         safe = SafeCracker(instructions=dataset)
         safe.rotate() 
-    return safe.zeroStop + safe.zeroCross
+    return safe.zero_stop + safe.zero_cross
     
 @log_time
 def part_A():
@@ -62,12 +62,12 @@ def part_A():
     logger.info("testdata table")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
-    testcase = problemSolver(testdata, 1)
+    testcase = problem_solver(testdata, 1)
     #Assert testcase
     assert testcase == 3, f"Test case A failed returned:{testcase}"
     logger.info(f"Test case passed for part A")
     #Solve puzzle with full dataset
-    answerA = problemSolver(data, 1)
+    answerA = problem_solver(data, 1)
     return answerA
 
 @log_time
@@ -80,12 +80,12 @@ def part_B():
     console.log(f"{tellstory}")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
-    testcase = problemSolver(testdata, 2)
+    testcase = problem_solver(testdata, 2)
     #Assert testcase
     assert testcase == 6, f"Test case B failed returned:{testcase}"
     logger.info(f"Test case: {testcase} passed for part B")
     #Solve puzzle with full dataset
-    answerB = problemSolver(data, 2)
+    answerB = problem_solver(data, 2)
     return answerB
 
 def main():
@@ -133,5 +133,5 @@ if __name__ == "__main__":
             # toZero = 100 - self.dial
         # self.dial = (self.dial + direction * amount) % 100
         # if amount > toZero:
-        #     self.zeroCross += (amount - toZero) // 100 + 1
+        #     self.zero_cross += (amount - toZero) // 100 + 1
      

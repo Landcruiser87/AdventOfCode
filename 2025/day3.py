@@ -6,18 +6,30 @@ sys.path.append(root_folder)
 from utils import support
 from utils.loc import linecount
 from utils.support import logger, console, log_time
+import numpy as np
+
 
 #Set day/year global variables
 DAY:int = 3 #datetime.now().day
 YEAR:int = 2025 #datetime.now().year
 
+def calcJoltages(banks:list):
+    res = []
+    for row in banks:
+        row = np.array(row)
+        toptwo = np.argsort(row)[-2:]
+        ordered = np.sort(toptwo)
+        vals = row[ordered]
+        joltage = "".join(vals.astype(str))
+        res.append(joltage)
+
+    return list(map(int, res))
+
 def problemSolver(dataset:list, part:int, test:bool=False)->int:
-    #Test data comes in a little wierd
-    if test:
-        data = "".join(dataset).split(",")
-    else:
-        data = dataset[0].split(",")
-    return 
+    dataset = [list(map(int, row)) for row in dataset]
+    if part == 1:
+        res = calcJoltages(dataset)
+        return sum(res)
 
 @log_time
 def part_A():
@@ -32,7 +44,7 @@ def part_A():
     #Solve puzzle w/testcase
     testcase = problemSolver(testdata, 1, True)
     #Assert testcase
-    assert testcase == 1227775554, f"Test case A failed returned:{testcase}"
+    assert testcase == 357, f"Test case A failed returned:{testcase}"
     logger.info(f"Test case passed for part A")
     #Solve puzzle with full dataset
     answerA = problemSolver(data, 1)
@@ -92,5 +104,6 @@ if __name__ == "__main__":
 ########################################################
 #Notes
 #Part A Notes
-# Main thing here is to count any number in a range that repeats itself.  This can be multiple length numbers depending on how huge the input gets.  
-# Which knowing Eric, will probably be massive. 
+#Here we have "banks" of batteries (each row) which we want to turn on and find the largest joltage possible.  
+#Joltages are calculated by turning on two individual "digits" and multiplying htem.  We can't rearrange them either
+#Ad up each rows joltage for the final joltage.
