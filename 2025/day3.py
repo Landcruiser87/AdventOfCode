@@ -13,20 +13,21 @@ import numpy as np
 DAY:int = 3 #datetime.now().day
 YEAR:int = 2025 #datetime.now().year
 
-def calcJoltages(banks:list):
+def calc_joltages(banks:list, length:int):
     res = []
     for row in banks:
-        combo_nation = ["".join(pair) for pair in combinations(row, 2)]
+        combo_nation = ["".join(pair) for pair in combinations(row, length)]
         mapped = list(map(int, combo_nation))
         topj = np.argmax(mapped)
         res.append(mapped[topj])
     return res
 
-def problemSolver(dataset:list, part:int, test:bool=False)->int:
+def problem_solver(dataset:list, part:int, test:bool=False)->int:
     if part == 1:
-        res = calcJoltages(dataset)
-        return sum(res)
-
+        res = calc_joltages(dataset, 2)
+    elif part == 2:
+        res = calc_joltages(dataset, 12)
+    return sum(res)
 @log_time
 def part_A():
     logger.info("Solving part A")
@@ -38,12 +39,12 @@ def part_A():
     logger.info("testdata table")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
-    testcase = problemSolver(testdata, 1, True)
+    testcase = problem_solver(testdata, 1, True)
     #Assert testcase
     assert testcase == 357, f"Test case A failed returned:{testcase}"
     logger.info(f"Test case passed for part A")
     #Solve puzzle with full dataset
-    answerA = problemSolver(data, 1)
+    answerA = problem_solver(data, 1)
     return answerA
 
 @log_time
@@ -56,12 +57,12 @@ def part_B():
     console.log(f"{tellstory}")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
-    testcase = problemSolver(testdata, 2, True)
+    testcase = problem_solver(testdata, 2, True)
     #Assert testcase
-    assert testcase == 4174379265, f"Test case B failed returned:{testcase}"
+    assert testcase == 3121910778619, f"Test case B failed returned:{testcase}"
     logger.info(f"Test case: {testcase} passed for part B")
     #Solve puzzle with full dataset
-    answerB = problemSolver(data, 2)
+    answerB = problem_solver(data, 2)
     return answerB
 
 def main():
@@ -104,3 +105,7 @@ if __name__ == "__main__":
 #Joltages are calculated by turning on two individual "digits" and multiplying htem.  We can't rearrange them either
 #Ad up each rows joltage for the final joltage.  The key here seems to be that its not hte highest two "individual"
 #numbers added together.  Its the highest possible combination of the two.  Hello itertools!
+########################################################
+#Part B Notes
+#Well In usual Eric fashion he hits us with a memory error when trying to use combinations at the larger
+#battery bank level.  Maaaaybe use hashmap?  Memoization?  
