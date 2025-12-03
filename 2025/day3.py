@@ -6,8 +6,8 @@ sys.path.append(root_folder)
 from utils import support
 from utils.loc import linecount
 from utils.support import logger, console, log_time
+from itertools import combinations
 import numpy as np
-
 
 #Set day/year global variables
 DAY:int = 3 #datetime.now().day
@@ -16,17 +16,13 @@ YEAR:int = 2025 #datetime.now().year
 def calcJoltages(banks:list):
     res = []
     for row in banks:
-        row = np.array(row)
-        toptwo = np.argsort(row)[-2:]
-        ordered = np.sort(toptwo)
-        vals = row[ordered]
-        joltage = "".join(vals.astype(str))
-        res.append(joltage)
-
-    return list(map(int, res))
+        combo_nation = ["".join(pair) for pair in combinations(row, 2)]
+        mapped = list(map(int, combo_nation))
+        topj = np.argmax(mapped)
+        res.append(mapped[topj])
+    return res
 
 def problemSolver(dataset:list, part:int, test:bool=False)->int:
-    dataset = [list(map(int, row)) for row in dataset]
     if part == 1:
         res = calcJoltages(dataset)
         return sum(res)
@@ -106,4 +102,5 @@ if __name__ == "__main__":
 #Part A Notes
 #Here we have "banks" of batteries (each row) which we want to turn on and find the largest joltage possible.  
 #Joltages are calculated by turning on two individual "digits" and multiplying htem.  We can't rearrange them either
-#Ad up each rows joltage for the final joltage.
+#Ad up each rows joltage for the final joltage.  The key here seems to be that its not hte highest two "individual"
+#numbers added together.  Its the highest possible combination of the two.  Hello itertools!
