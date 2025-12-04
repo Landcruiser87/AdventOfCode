@@ -10,89 +10,14 @@ from dataclasses import dataclass
 from collections import deque
 
 #Set day/year global variables
-DAY:int = 4 #datetime.now().day
-YEAR:int = 2025 #datetime.now().year
-
-@dataclass
-class Forklift():
-    access_points  :set  = None
-    height         :int  = None
-    locations      :set  = None
-    paper_available:bool = True
-    roll_map       :list = None
-    roll_count     :int  = 0
-    width          :int  = None
-    def find_rolls(self)-> None:
-        self.locations = set()
-        for x in range(self.height):
-            for y in range(self.width):
-                if self.roll_map[x][y] == "@":
-                    self.locations.add((x, y))
-
-    def load_forklift(self):
-        self.height, self.width = len(self.roll_map), len(self.roll_map[0])
-
-    def onboard(self, point:tuple) -> bool:
-        x = point[0]
-        y = point[1]
-        if (x < 0) | (x >= self.height):
-            return False
-        elif (y < 0) | (y >= self.width):
-            return False
-        else:
-            return True
-
-    def print_map(self, row:int, col:int):
-        temp = self.roll_map.copy()
-        temp[row] = temp[row][:col] + "x" + temp[row][col+1:]
-        console.print(temp)
-
-    def remove_rolls(self):
-        for row, col in self.access_points:
-            self.roll_map[row] = self.roll_map[row][:col] + "." + self.roll_map[row][col+1:]
-        # logger.info(f"{len(self.access_points)} points removed")
-
-    def scan_rolls(self, part:int) -> int:
-        stack = deque(self.locations)
-        self.access_points = set()
-        while stack:
-            row, col = stack.popleft()
-            blocks = 0
-            for i in range(row - 1, row + 2): 
-                for j in range(col - 1, col + 2): 
-                    if (row == i) & (col == j):
-                        continue
-
-                    if self.onboard((i, j)):
-                        if self.roll_map[i][j] == "@":
-                            blocks += 1
-            if blocks < 4:
-                self.access_points.add((row, col))
-        if part == 1:
-            return len(self.access_points)
-        if part == 2:
-            if len(self.access_points) == 0:
-                self.paper_available = False
-                return
-            else:
-                self.roll_count += len(self.access_points)
-                self.remove_rolls()
-                self.find_rolls()
-                self.scan_rolls(part)
+DAY:int = 11 #datetime.now().day
+YEAR:int = 2020 #datetime.now().year
 
 def problem_solver(dataset:list, part:int)->int:
-    fork = Forklift(roll_map=dataset)
-    fork.load_forklift()
-    fork.find_rolls()
     if part == 1:
-        rolls = fork.scan_rolls(part)
+        pass
     elif part == 2:
-        while fork.paper_available:
-            fork.load_forklift()
-            fork.find_rolls()
-            fork.scan_rolls(part)
-        rolls = fork.roll_count
-    return rolls
+        pass
 
 @log_time
 def part_A():
@@ -125,7 +50,7 @@ def part_B():
     #Solve puzzle w/testcase
     testcase = problem_solver(testdata, 2)
     #Assert testcase
-    assert testcase == 43, f"Test case B failed returned:{testcase}"
+    assert testcase == 37, f"Test case B failed returned:{testcase}"
     logger.info(f"Test case: {testcase} passed for part B")
     #Solve puzzle with full dataset
     answerB = problem_solver(data, 2)
