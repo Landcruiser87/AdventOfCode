@@ -15,38 +15,42 @@ YEAR:int = 2020 #datetime.now().year
 @dataclass
 class TwoChainz():
     data:list = None
-    maxJolts:int = None
-    def chainOfFools(self) -> int:
-        oneJolts, threeJolts = 0, 0
+    max_jolts:int = None
+    def chain_of_fools(self) -> int:
+        one_jolts, three_jolts = 0, 0
         pairs = self.data.copy()
         while len(pairs) > 1:
             resistor = pairs.pop(0)
-            minDist = min(pairs)
-            if minDist - resistor == 1:
-                oneJolts += 1
-            elif minDist - resistor == 3:
-                threeJolts += 1
+            min_dist = min(pairs)
+            if min_dist - resistor == 1:
+                one_jolts += 1
+            elif min_dist - resistor == 3:
+                three_jolts += 1
         #The last threejolt diff will always be 3 due to the adapter
-        threeJolts += 1
-        return oneJolts * threeJolts
+        three_jolts += 1
+        return one_jolts * three_jolts
     
-    def pathFinder(self) -> int:
-        pass
-        #Build a shitload of possible paths.  BFS? DFS?
-
-
-def problemSolver(dataset:list, part:int)->int:
+    def path_finder(self) -> int:
+        paths = {x: 1 for x in self.data}
+        for idx, adapter in enumerate(self.data):
+            for nextfew in (idx+2, idx+3):
+                if self.data[nextfew] - adapter <= 3 & nextfew < len(self.data):
+                    for nextadapter in self.data[nextfew:]:
+                        paths[nextadapter] += paths[adapter]
+        return paths[max(self.data)]
+    
+def problem_solver(dataset:list, part:int)->int:
     data = sorted(list(map(int, dataset)))
     data.insert(0, 0) #Add the wall charger
     chainz = TwoChainz(data=data)
-    chainz.maxJolts = max(data) + 3
+    chainz.max_jolts = max(data) + 3
 
     if part == 1:
-        total = chainz.chainOfFools()
+        total = chainz.chain_of_fools()
         return total
     
     if part == 2:
-        total = chainz.pathFinder()
+        total = chainz.path_finder()
         return total
 
 @log_time
@@ -60,12 +64,12 @@ def part_A():
     logger.info("testdata table")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
-    testcase = problemSolver(testdata, 1)
+    testcase = problem_solver(testdata, 1)
     #Assert testcase
     assert testcase == 220, f"Test case A failed returned:{testcase}"
     logger.info(f"Test case passed for part A")
     #Solve puzzle with full dataset
-    answerA = problemSolver(data, 1)
+    answerA = problem_solver(data, 1)
     return answerA
 
 @log_time
@@ -78,12 +82,12 @@ def part_B():
     console.log(f"{tellstory}")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
-    testcase = problemSolver(testdata, 2)
+    testcase = problem_solver(testdata, 2)
     #Assert testcase
     assert testcase == 19208, f"Test case B failed returned:{testcase}"
     logger.info(f"Test case: {testcase} passed for part B")
     #Solve puzzle with full dataset
-    answerB = problemSolver(data, 2)
+    answerB = problem_solver(data, 2)
     return answerB
 
 def main():
