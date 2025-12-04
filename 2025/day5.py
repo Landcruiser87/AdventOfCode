@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from collections import deque
 
 #Set day/year global variables
-DAY:int = 4 #datetime.now().day
+DAY:int = 5 #datetime.now().day
 YEAR:int = 2025 #datetime.now().year
 
 def problem_solver(dataset:list, part:int)->int:
