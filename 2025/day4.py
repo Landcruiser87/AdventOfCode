@@ -45,7 +45,7 @@ class Forklift:
             return False
         else:
             return True
-            
+
     def paper_scan(self) -> int:
         stack = deque(self.locations)
         while stack:
@@ -66,9 +66,8 @@ def problem_solver(dataset:list, part:int)->int:
     fork.map_rolls()
     if part == 1:
         rolls = fork.paper_scan()
-    # elif part == 2:
-    #     # rolls = 
-    #     pass
+    elif part == 2:
+        rolls = fork.paper_scan()
 
     return rolls
 
@@ -76,9 +75,9 @@ def problem_solver(dataset:list, part:int)->int:
 def part_A():
     logger.info("Solving part A")
     #to check your cache status when you need cache nooooow call J.... G.... WENTWORTH. 
-    support._877_cache_now() 
+    support._877_cache_now()
     #Pull puzzle description and testdata
-    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, False, -2)
+    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, False, -3)
     console.log(f"{tellstory}")
     logger.info("testdata table")
     [logger.info(row) for row in testdata]
@@ -103,7 +102,7 @@ def part_B():
     #Solve puzzle w/testcase
     testcase = problem_solver(testdata, 2)
     #Assert testcase
-    assert testcase == 3121910778619, f"Test case B failed returned:{testcase}"
+    assert testcase == 43, f"Test case B failed returned:{testcase}"
     logger.info(f"Test case: {testcase} passed for part B")
     #Solve puzzle with full dataset
     answerB = problem_solver(data, 2)
@@ -123,13 +122,13 @@ def main():
     # support.submit_answer(DAY, YEAR, 1, resultA)
 
     #Solve part B
-    # resultB = part_B()
-    # fails = []
-    # if resultB in fails:
-    #     logger.warning(f"Answer already submitted\nAnswer: {resultB}")
-    #     exit()
-    # else:
-    #     logger.info(f"part B possible solution: \n{resultB}\n")
+    resultB = part_B()
+    fails = []
+    if resultB in fails:
+        logger.warning(f"Answer already submitted\nAnswer: {resultB}")
+        exit()
+    else:
+        logger.info(f"part B possible solution: \n{resultB}\n")
     # support.submit_answer(DAY, YEAR, 2, resultB)
 
     #Recurse lines of code
