@@ -42,6 +42,16 @@ class Forklift():
         else:
             return True
 
+    def print_map(self, row:int, col:int):
+        temp = self.roll_map.copy()
+        temp[row] = temp[row][:col] + "x" + temp[row][col+1:]
+        console.print(temp)
+
+    def remove_rolls(self):
+        for row, col in self.access_points:
+            self.roll_map[row] = self.roll_map[row][:col] + "." + self.roll_map[row][col+1:]
+        # logger.info(f"{len(self.access_points)} points removed")
+
     def scan_rolls(self, part:int) -> int:
         stack = deque(self.locations)
         self.access_points = set()
@@ -70,16 +80,6 @@ class Forklift():
                 self.find_rolls()
                 self.scan_rolls(part)
 
-    def print_map(self, row:int, col:int):
-        temp = self.roll_map.copy()
-        temp[row] = temp[row][:col] + "x" + temp[row][col+1:]
-        console.print(temp)
-
-    def remove_rolls(self):
-        for row, col in self.access_points:
-            self.roll_map[row] = self.roll_map[row][:col] + "." + self.roll_map[row][col+1:]
-        # logger.info(f"{len(self.access_points)} points removed")
-
 def problem_solver(dataset:list, part:int)->int:
     fork = Forklift(roll_map=dataset)
     fork.load_forklift()
@@ -93,6 +93,8 @@ def problem_solver(dataset:list, part:int)->int:
             fork.scan_rolls(part)
         rolls = fork.roll_count
     return rolls
+
+
 
 @log_time
 def part_A():
