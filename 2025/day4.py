@@ -14,7 +14,7 @@ DAY:int = 4 #datetime.now().day
 YEAR:int = 2025 #datetime.now().year
 
 @dataclass
-class Forklift:
+class Forklift():
     access_points  :set  = None
     height         :int  = None
     locations      :set  = None
@@ -22,7 +22,6 @@ class Forklift:
     roll_map       :list = None
     roll_count     :int  = 0
     width          :int  = None
-
     def find_rolls(self)-> None:
         self.locations = set()
         for x in range(self.height):
