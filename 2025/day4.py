@@ -7,6 +7,7 @@ from utils import support
 from utils.loc import linecount
 from utils.support import logger, console, log_time
 from dataclasses import dataclass
+from collections import deque
 
 #Set day/year global variables
 DAY:int = 4 #datetime.now().day
@@ -14,19 +15,61 @@ YEAR:int = 2025 #datetime.now().year
 
 @dataclass
 class Forklift:
-    data:list = None
-    minrolls:int = 4
-    def roll_scan(self):
-        pass 
+    access_points:set  = None
+    rollmap      :list = None
+    height       :int  = None
+    locations    :set  = None
+    minrolls     :int  = 4
+    width        :int  = None
+    def print_map(self, row:int, col:int):
+        temp = self.rollmap.copy()
+        temp[row] = temp[row][:col] + "x" + temp[row][col+1:]
+        console.print(temp)
+
+    def map_rolls(self)-> None:
+        self.height, self.width = len(self.rollmap), len(self.rollmap[0])
+        self.access_points = set()
+        rolls = set()
+        for x in range(self.height):
+            for y in range(self.width):
+                if self.rollmap[x][y] == "@":
+                    rolls.add((x, y))
+        self.locations = rolls
+
+    def onboard(self, point:tuple) -> bool:
+        x = point[0]
+        y = point[1]
+        if (x < 0) | (x >= self.height):
+            return False
+        elif (y < 0) | (y >= self.width):
+            return False
+        else:
+            return True
+            
+    def paper_scan(self) -> int:
+        stack = deque(self.locations)
+        while stack:
+            row, col = stack.popleft()
+            blocks = 0
+            for i in range(row - 1, row + 2): 
+                for j in range(col - 1, col + 2): 
+                    if self.onboard((i, j)):
+                        if self.rollmap[i][j] == "@":
+                            blocks += 1
+            if blocks <= 4:
+                self.access_points.add((row, col))
+                # self.print_map(row, col)
+        return len(self.access_points)
 
 def problem_solver(dataset:list, part:int)->int:
-    fork = Forklift(data=dataset)
+    fork = Forklift(rollmap=dataset)
+    fork.map_rolls()
     if part == 1:
-        rolls = fork.roll_scan()
-    elif part == 2:
-        # rolls = 
-        pass
-    
+        rolls = fork.paper_scan()
+    # elif part == 2:
+    #     # rolls = 
+    #     pass
+
     return rolls
 
 @log_time
@@ -42,7 +85,7 @@ def part_A():
     #Solve puzzle w/testcase
     testcase = problem_solver(testdata, 1)
     #Assert testcase
-    assert testcase == 357, f"Test case A failed returned:{testcase}"
+    assert testcase == 13, f"Test case A failed returned:{testcase}"
     logger.info(f"Test case passed for part A")
     #Solve puzzle with full dataset
     answerA = problem_solver(data, 1)
@@ -80,13 +123,13 @@ def main():
     # support.submit_answer(DAY, YEAR, 1, resultA)
 
     #Solve part B
-    resultB = part_B()
-    fails = []
-    if resultB in fails:
-        logger.warning(f"Answer already submitted\nAnswer: {resultB}")
-        exit()
-    else:
-        logger.info(f"part B possible solution: \n{resultB}\n")
+    # resultB = part_B()
+    # fails = []
+    # if resultB in fails:
+    #     logger.warning(f"Answer already submitted\nAnswer: {resultB}")
+    #     exit()
+    # else:
+    #     logger.info(f"part B possible solution: \n{resultB}\n")
     # support.submit_answer(DAY, YEAR, 2, resultB)
 
     #Recurse lines of code
@@ -94,7 +137,7 @@ def main():
     logger.info(f"Lines of code: {LOC}")
 
     #Delete the cache after submission
-    support._877_cache_now(".cache", True)
+    # support._877_cache_now(".cache", True)
     
 if __name__ == "__main__":
     main()
