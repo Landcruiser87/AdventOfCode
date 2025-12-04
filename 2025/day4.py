@@ -9,15 +9,25 @@ from utils.support import logger, console, log_time
 from dataclasses import dataclass
 
 #Set day/year global variables
-DAY:int = 1 #datetime.now().day
-YEAR:int = 2025 #datetime.now().yearBb
+DAY:int = 4 #datetime.now().day
+YEAR:int = 2025 #datetime.now().year
 
-def problemSolver(dataset:list, part:int)->int:
+@dataclass
+class Forklift:
+    data:list = None
+    minrolls:int = 4
+    def roll_scan(self):
+        pass 
+
+def problem_solver(dataset:list, part:int)->int:
+    fork = Forklift(data=dataset)
     if part == 1:
+        rolls = fork.roll_scan()
+    elif part == 2:
+        # rolls = 
         pass
     
-    if part == 2:
-        pass
+    return rolls
 
 @log_time
 def part_A():
@@ -25,17 +35,17 @@ def part_A():
     #to check your cache status when you need cache nooooow call J.... G.... WENTWORTH. 
     support._877_cache_now() 
     #Pull puzzle description and testdata
-    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, False, -1)
+    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, False, -2)
     console.log(f"{tellstory}")
     logger.info("testdata table")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
-    testcase = problemSolver(testdata, 1)
+    testcase = problem_solver(testdata, 1)
     #Assert testcase
-    assert testcase == 220, f"Test case A failed returned:{testcase}"
+    assert testcase == 357, f"Test case A failed returned:{testcase}"
     logger.info(f"Test case passed for part A")
     #Solve puzzle with full dataset
-    answerA = problemSolver(data, 1)
+    answerA = problem_solver(data, 1)
     return answerA
 
 @log_time
@@ -48,12 +58,12 @@ def part_B():
     console.log(f"{tellstory}")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
-    testcase = problemSolver(testdata, 2)
+    testcase = problem_solver(testdata, 2)
     #Assert testcase
-    assert testcase == 19208, f"Test case B failed returned:{testcase}"
+    assert testcase == 3121910778619, f"Test case B failed returned:{testcase}"
     logger.info(f"Test case: {testcase} passed for part B")
     #Solve puzzle with full dataset
-    answerB = problemSolver(data, 2)
+    answerB = problem_solver(data, 2)
     return answerB
 
 def main():
@@ -61,7 +71,7 @@ def main():
     data = support.pull_inputdata(DAY, YEAR)
     # Solve part A
     resultA = part_A()
-    fails = [38]
+    fails = []
     if resultA in fails:
         logger.warning(f"Answer already submitted\nAnswer: {resultA}")
         exit()
@@ -70,13 +80,13 @@ def main():
     # support.submit_answer(DAY, YEAR, 1, resultA)
 
     #Solve part B
-    # resultB = part_B()
-    # fails = [252]
-    # if resultB in fails:
-    #     logger.warning(f"Answer already submitted\nAnswer: {resultB}")
-    #     exit()
-    # else:
-    #     logger.info(f"part B possible solution: \n{resultB}\n")
+    resultB = part_B()
+    fails = []
+    if resultB in fails:
+        logger.warning(f"Answer already submitted\nAnswer: {resultB}")
+        exit()
+    else:
+        logger.info(f"part B possible solution: \n{resultB}\n")
     # support.submit_answer(DAY, YEAR, 2, resultB)
 
     #Recurse lines of code
@@ -84,11 +94,11 @@ def main():
     logger.info(f"Lines of code: {LOC}")
 
     #Delete the cache after submission
-    # support._877_cache_now(".cache", True)
+    support._877_cache_now(".cache", True)
     
 if __name__ == "__main__":
     main()
-    
+
 ########################################################
 #Notes
 #Part A Notes
