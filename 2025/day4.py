@@ -15,27 +15,34 @@ YEAR:int = 2025 #datetime.now().year
 
 @dataclass
 class Forklift:
-    access_points:set  = None
-    rollmap      :list = None
-    height       :int  = None
-    locations    :set  = None
-    minrolls     :int  = 4
-    width        :int  = None
+    access_points  :set  = None
+    height         :int  = None
+    locations      :set  = None
+    min_rolls      :int  = 4
+    paper_available:bool = True
+    roll_map       :list = None
+    roll_count     :int  = 0
+    width          :int  = None
     def print_map(self, row:int, col:int):
-        temp = self.rollmap.copy()
+        temp = self.roll_map.copy()
         temp[row] = temp[row][:col] + "x" + temp[row][col+1:]
         console.print(temp)
 
-    def map_rolls(self)-> None:
-        self.height, self.width = len(self.rollmap), len(self.rollmap[0])
+    def load_forklift(self):
+        self.height, self.width = len(self.roll_map), len(self.roll_map[0])
         self.access_points = set()
-        rolls = set()
+
+    def map_rolls(self)-> None:
+        self.locations = set()
         for x in range(self.height):
             for y in range(self.width):
-                if self.rollmap[x][y] == "@":
-                    rolls.add((x, y))
-        self.locations = rolls
+                if self.roll_map[x][y] == "@":
+                    self.locations.add((x, y))
 
+    def remove_access_points(self):
+        for row, col in self.access_points:
+            self.roll_map[row] = self.roll_map[row][:col] + "." + self.roll_map[row][col+1:]
+        logger.info("points removed")
     def onboard(self, point:tuple) -> bool:
         x = point[0]
         y = point[1]
@@ -46,29 +53,43 @@ class Forklift:
         else:
             return True
 
-    def paper_scan(self) -> int:
+    def paper_scan(self, part:int) -> int:
         stack = deque(self.locations)
         while stack:
             row, col = stack.popleft()
             blocks = 0
             for i in range(row - 1, row + 2): 
                 for j in range(col - 1, col + 2): 
+                    if (row == i) & (col == j):
+                        continue
+
                     if self.onboard((i, j)):
-                        if self.rollmap[i][j] == "@":
+                        if self.roll_map[i][j] == "@":
                             blocks += 1
-            if blocks <= 4:
+            if blocks < 4:
                 self.access_points.add((row, col))
                 # self.print_map(row, col)
-        return len(self.access_points)
+        if part == 1:
+            return len(self.access_points)
+        if part == 2:
+            if len(self.access_points) == 0:
+                self.paper_available = False
+                return
+            else:
+                self.remove_access_points()
+                self.paper_scan(part)
 
 def problem_solver(dataset:list, part:int)->int:
-    fork = Forklift(rollmap=dataset)
+    fork = Forklift(roll_map=dataset)
+    fork.load_forklift()
     fork.map_rolls()
     if part == 1:
-        rolls = fork.paper_scan()
+        rolls = fork.paper_scan(part)
     elif part == 2:
-        rolls = fork.paper_scan()
-
+        while fork.paper_available:
+            fork.load_forklift()
+            fork.map_rolls()
+            rolls = fork.paper_scan(part)
     return rolls
 
 @log_time
@@ -96,7 +117,7 @@ def part_B():
     #Check cache status
     support._877_cache_now()
     #Pull puzzle description and testdata
-    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2, False, -1)
+    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2, False, -3)
     console.log(f"{tellstory}")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
