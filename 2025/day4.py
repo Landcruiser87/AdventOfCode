@@ -18,31 +18,21 @@ class Forklift:
     access_points  :set  = None
     height         :int  = None
     locations      :set  = None
-    min_rolls      :int  = 4
     paper_available:bool = True
     roll_map       :list = None
     roll_count     :int  = 0
     width          :int  = None
-    def print_map(self, row:int, col:int):
-        temp = self.roll_map.copy()
-        temp[row] = temp[row][:col] + "x" + temp[row][col+1:]
-        console.print(temp)
 
-    def load_forklift(self):
-        self.height, self.width = len(self.roll_map), len(self.roll_map[0])
-        self.access_points = set()
-
-    def map_rolls(self)-> None:
+    def find_rolls(self)-> None:
         self.locations = set()
         for x in range(self.height):
             for y in range(self.width):
                 if self.roll_map[x][y] == "@":
                     self.locations.add((x, y))
+    def load_forklift(self):
+        self.height, self.width = len(self.roll_map), len(self.roll_map[0])
+        self.access_points = set()
 
-    def remove_access_points(self):
-        for row, col in self.access_points:
-            self.roll_map[row] = self.roll_map[row][:col] + "." + self.roll_map[row][col+1:]
-        logger.info("points removed")
     def onboard(self, point:tuple) -> bool:
         x = point[0]
         y = point[1]
@@ -52,9 +42,9 @@ class Forklift:
             return False
         else:
             return True
-
     def paper_scan(self, part:int) -> int:
         stack = deque(self.locations)
+        self.access_points = set()
         while stack:
             row, col = stack.popleft()
             blocks = 0
@@ -68,7 +58,6 @@ class Forklift:
                             blocks += 1
             if blocks < 4:
                 self.access_points.add((row, col))
-                # self.print_map(row, col)
         if part == 1:
             return len(self.access_points)
         if part == 2:
@@ -76,20 +65,33 @@ class Forklift:
                 self.paper_available = False
                 return
             else:
+                self.roll_count += len(self.access_points)
                 self.remove_access_points()
+                self.find_rolls()
                 self.paper_scan(part)
+
+    def print_map(self, row:int, col:int):
+        temp = self.roll_map.copy()
+        temp[row] = temp[row][:col] + "x" + temp[row][col+1:]
+        console.print(temp)
+
+    def remove_access_points(self):
+        for row, col in self.access_points:
+            self.roll_map[row] = self.roll_map[row][:col] + "." + self.roll_map[row][col+1:]
+        # logger.info(f"{len(self.access_points)} points removed")
 
 def problem_solver(dataset:list, part:int)->int:
     fork = Forklift(roll_map=dataset)
     fork.load_forklift()
-    fork.map_rolls()
+    fork.find_rolls()
     if part == 1:
         rolls = fork.paper_scan(part)
     elif part == 2:
         while fork.paper_available:
             fork.load_forklift()
-            fork.map_rolls()
-            rolls = fork.paper_scan(part)
+            fork.find_rolls()
+            fork.paper_scan(part)
+        rolls = fork.roll_count
     return rolls
 
 @log_time
@@ -157,7 +159,7 @@ def main():
     logger.info(f"Lines of code: {LOC}")
 
     #Delete the cache after submission
-    # support._877_cache_now(".cache", True)
+    support._877_cache_now(".cache", True)
     
 if __name__ == "__main__":
     main()
