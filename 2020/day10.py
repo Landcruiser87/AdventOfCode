@@ -7,6 +7,7 @@ from utils import support
 from utils.loc import linecount
 from utils.support import logger, console, log_time
 from dataclasses import dataclass
+from collections import deque, defaultdict
 
 #Set day/year global variables
 DAY:int = 10 #datetime.now().day
@@ -18,9 +19,9 @@ class TwoChainz():
     max_jolts:int = None
     def chain_of_fools(self) -> int:
         one_jolts, three_jolts = 0, 0
-        pairs = self.data.copy()
+        pairs = deque(self.data.copy())
         while len(pairs) > 1:
-            resistor = pairs.pop(0)
+            resistor = pairs.popleft()
             min_dist = min(pairs)
             if min_dist - resistor == 1:
                 one_jolts += 1
@@ -31,13 +32,11 @@ class TwoChainz():
         return one_jolts * three_jolts
     
     def path_finder(self) -> int:
-        paths = {x: 1 for x in self.data}
-        for idx, adapter in enumerate(self.data):
-            for nextfew in (idx+2, idx+3):
-                if self.data[nextfew] - adapter <= 3 & nextfew < len(self.data):
-                    for nextadapter in self.data[nextfew:]:
-                        paths[nextadapter] += paths[adapter]
-        return paths[max(self.data)]
+        counts = defaultdict(int, {0: 1})
+        for ada in self.data[1:]:
+            counts[ada] = counts[ada - 3] + counts[ada - 2] + counts[ada - 1]
+
+        return counts[self.data[-1]]
     
 def problem_solver(dataset:list, part:int)->int:
     data = sorted(list(map(int, dataset)))
@@ -111,7 +110,7 @@ def main():
         exit()
     else:
         logger.info(f"part B possible solution: \n{resultB}\n")
-    # support.submit_answer(DAY, YEAR, 2, resultB)
+    support.submit_answer(DAY, YEAR, 2, resultB)
 
     #Recurse lines of code
     LOC = linecount(f'./{YEAR}/day{DAY}.py')

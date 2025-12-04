@@ -36,4 +36,4 @@ If you're using VSCode your env can be tied to the year you're using by changing
 | 07  | ⭐⭐ | [Day7](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day7.py) |[Handy Haversacks](https://adventofcode.com/2020/day/7) | 33.52 ms | 26.65 ms | 107 |
 | 08  | ⭐⭐ | [Day8](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day8.py) |[Handheld Halting](https://adventofcode.com/2020/day/8) | 39.31 ms | 45.12 ms | 110 |
 | 09  | ⭐⭐ | [Day9](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day9.py) |[Encoding Error](https://adventofcode.com/2020/day/9) | 44.00 ms | 64.81 ms | 92 |
-| 10  | ⭐ | [Day10](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day10.py) |[Adapter Array](https://adventofcode.com/2020/day/10) | 46.40 ms |  | 76 |
+| 10  | ⭐⭐ | [Day10](https://github.com/Landcruiser87/AdventOfCode/blob/main/2020/day10.py) |[Adapter Array](https://adventofcode.com/2020/day/10) | 46.40 ms | 60.27 ms | 90 |
