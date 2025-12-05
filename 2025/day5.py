@@ -114,7 +114,7 @@ def main():
         exit()
     else:
         logger.info(f"part B possible solution: \n{resultB}\n")
-    support.submit_answer(DAY, YEAR, 2, resultB)
+    # support.submit_answer(DAY, YEAR, 2, resultB)
 
     #Recurse lines of code
     LOC = linecount(f'./{YEAR}/day{DAY}.py')

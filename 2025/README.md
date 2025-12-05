@@ -12,7 +12,7 @@ These are my solutions for the [Advent of Code 2025](https://adventofcode.com/20
 | 02  | ⭐⭐ | [Day2](https://github.com/Landcruiser87/AdventOfCode/blob/main/2025/day2.py) |[Gift Shop](https://adventofcode.com/2025/day/2) | 298.08 ms | 317.17 ms | 95 |
 | 03  | ⭐⭐ | [Day3](https://github.com/Landcruiser87/AdventOfCode/blob/main/2025/day3.py) |[Lobby](https://adventofcode.com/2025/day/3) | 128.66 ms | 29.40 ms | 88 |
 | 04  | ⭐⭐ | [Day4](https://github.com/Landcruiser87/AdventOfCode/blob/main/2025/day4.py) |[Printing Department](https://adventofcode.com/2025/day/4) | 60.80 ms | 413.95 ms | 130 |
-| 05  | ⭐⭐ | [Day5](https://github.com/Landcruiser87/AdventOfCode/blob/main/2025/day5.py) |[Cafeteria](https://adventofcode.com/2025/day/5) | 38.81 ms | 48.01  ms | 77 |
+| 05  | ⭐⭐ | [Day5](https://github.com/Landcruiser87/AdventOfCode/blob/main/2025/day5.py) |[Cafeteria](https://adventofcode.com/2025/day/5) | 38.81 ms | 48.01  ms | 101 |
 
 ### 🎄 Setup 🎄
 
