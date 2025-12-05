@@ -92,5 +92,11 @@ if __name__ == "__main__":
 ########################################################
 #Notes
 #Part A Notes
+#Same adjacent grid motion.  
+#Rules
+#If a seat (L) is empty and there are no occupied seats adjacent.  The seat is occupado
+#If a seat is occupied (#) and four or more seats adjacent to it are also occupied, the seat empties
+#Floor (.) doesn't change.  No one sits on the floor. 
+
 ########################################################
 #Part B Notes
