@@ -62,7 +62,6 @@ class Forklift():
                 for j in range(col - 1, col + 2): 
                     if (row == i) & (col == j):
                         continue
-
                     if self.onboard((i, j)):
                         if self.roll_map[i][j] == "@":
                             blocks += 1
