@@ -7,8 +7,6 @@ from utils import support
 from utils.loc import linecount
 from utils.support import logger, console, log_time
 from dataclasses import dataclass
-from collections import deque
-from itertools import groupby
 
 #Set day/year global variables
 DAY:int = 5 #datetime.now().day
@@ -32,6 +30,21 @@ class Database():
                     self.fresh += 1
                     break
         return self.fresh
+    
+    def total(self):
+        sorted_rngs = sorted(self.ing_rng, key=lambda x:x.start)
+        merged = []
+        merged.append(sorted_rngs[0])
+        for rng in sorted_rngs[1:]:
+            start, _ = rng.start, rng.stop
+            if merged[-1].start <= start <= merged[-1].stop:
+                merged[-1] = range(merged[-1].start, max(merged[-1].stop, rng.stop))
+                # logger.info(f"{merged[-1]}")
+            else:
+                merged.append(rng)
+                # logger.info(f"{rng}")
+
+        return sum([len(rn) for rn in merged])
 
 def problem_solver(dataset:list, part:int)->int:
     db = Database()
@@ -39,7 +52,8 @@ def problem_solver(dataset:list, part:int)->int:
     if part == 1:
         fresh = db.spoilage()
     elif part == 2:
-        pass
+        del db.ingredients
+        fresh = db.total()
     return fresh
 
 @log_time
@@ -67,13 +81,13 @@ def part_B():
     #Check cache status
     support._877_cache_now()
     #Pull puzzle description and testdata
-    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2, False, -1)
+    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2, False, -2)
     console.log(f"{tellstory}")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
     testcase = problem_solver(testdata, 2)
     #Assert testcase
-    assert testcase == 43, f"Test case B failed returned:{testcase}"
+    assert testcase == 14, f"Test case B failed returned:{testcase}"
     logger.info(f"Test case: {testcase} passed for part B")
     #Solve puzzle with full dataset
     answerB = problem_solver(data, 2)
@@ -90,17 +104,17 @@ def main():
         exit()
     else:
         logger.info(f"part A possible solution: \n{resultA}\n")
-    support.submit_answer(DAY, YEAR, 1, resultA)
+    # support.submit_answer(DAY, YEAR, 1, resultA)
 
     #Solve part B
-    # resultB = part_B()
-    # fails = []
-    # if resultB in fails:
-    #     logger.warning(f"Answer already submitted\nAnswer: {resultB}")
-    #     exit()
-    # else:
-    #     logger.info(f"part B possible solution: \n{resultB}\n")
-    # support.submit_answer(DAY, YEAR, 2, resultB)
+    resultB = part_B()
+    fails = []
+    if resultB in fails:
+        logger.warning(f"Answer already submitted\nAnswer: {resultB}")
+        exit()
+    else:
+        logger.info(f"part B possible solution: \n{resultB}\n")
+    support.submit_answer(DAY, YEAR, 2, resultB)
 
     #Recurse lines of code
     LOC = linecount(f'./{YEAR}/day{DAY}.py')
@@ -115,5 +129,16 @@ if __name__ == "__main__":
 ########################################################
 #Notes
 #Part A Notes
+# ehh really easy?
 ########################################################
 #Part B Notes
+# I guess just a flattened list of the combined ranges.  Which also seems too easy.  huh
+# there it is!  MemoryError.  Need a better way to turn the range into a list.  I can't 
+# store all these huge numbers...  
+# Well first too i'm seeing I need to merge the ranges. 
+# Not sure how to do that. 
+    
+#New game plan. 
+#Range Merge 
+#Alright.  soooo I think ... I need to do an startpoint check for the overlap. 
+#3-5 -> 10-14 -> 16-20 -> 12-18 
