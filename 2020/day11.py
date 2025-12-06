@@ -8,16 +8,66 @@ from utils.loc import linecount
 from utils.support import logger, console, log_time
 from dataclasses import dataclass
 from collections import deque
+import numpy as np
 
 #Set day/year global variables
 DAY:int = 11 #datetime.now().day
 YEAR:int = 2020 #datetime.now().year
 
+@dataclass
+class SeatingChart():
+    raw     :list = None
+    seatmap :list = None
+    seatlocs:set  = None
+    occupied:int  = 0
+    height  :int  = None
+    width   :int  = None
+    def load_map(self, data):
+        self.raw = data
+        self.seatmap = np.array(data, dtype=str).reshape(2, -1)
+        self.height = self.seatmap.shape[0]
+        self.width = self.seatmap.shape[1]
+
+    def find_chairs(self)-> None:
+        self.seatlocs = set()
+        for x in range(self.height):
+            for y in range(self.width):
+                if self.seatmap[x][y] == "L":
+                    self.seatlocs.add((x, y))
+
+    def search(self) -> int:
+        stack = deque(self.seatlocs)
+        taken = set()
+        while stack:
+            row, col = stack.popleft()
+            seats = 0
+            for i in range(row - 1, row + 2): 
+                for j in range(col - 1, col + 2): 
+                    if (row == i) & (col == j):
+                        continue
+                    if self.onboard((i, j)):
+                        if self.seatmap[i][j] == "#":
+                            seats += 1
+                
+    def onboard(self, point:tuple) -> bool:
+        x = point[0]
+        y = point[1]
+        if (x < 0) | (x >= self.height):
+            return False
+        elif (y < 0) | (y >= self.width):
+            return False
+        else:
+            return True
+
 def problem_solver(dataset:list, part:int)->int:
+    seat = SeatingChart() 
+    seat.load_map(data=dataset)
+    seat.find_chairs()
     if part == 1:
-        pass
+        occupado = seat.search(part)
     elif part == 2:
         pass
+    return occupado
 
 @log_time
 def part_A():
@@ -25,7 +75,7 @@ def part_A():
     #to check your cache status when you need cache nooooow call J.... G.... WENTWORTH. 
     support._877_cache_now()
     #Pull puzzle description and testdata
-    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, False, -3)
+    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, False, -5)
     console.log(f"{tellstory}")
     logger.info("testdata table")
     [logger.info(row) for row in testdata]
