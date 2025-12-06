@@ -1,10 +1,10 @@
-# 🎄 Advent of Code 2025 🎄
+# 🎄Advent of Code 2025🎄
 
-## 🎄 Summary 🎄
+## 🎄Summary🎄
 
 These are my solutions for the [Advent of Code 2025](https://adventofcode.com/2025) challenges.
 
-## 🎄 Results 🎄
+## 🎄Results🎄
 
 | Day | Stars | Solution | Name                                                             | Speed Part A | Speed Part B | LOC |
 | --- | ----- | ---- | ---------------------------------------------------------------- | ----- | ----- | --- | 
@@ -13,14 +13,15 @@ These are my solutions for the [Advent of Code 2025](https://adventofcode.com/20
 | 03  | ⭐⭐ | [Day3](https://github.com/Landcruiser87/AdventOfCode/blob/main/2025/day3.py) |[Lobby](https://adventofcode.com/2025/day/3) | 128.66 ms | 29.40 ms | 88 |
 | 04  | ⭐⭐ | [Day4](https://github.com/Landcruiser87/AdventOfCode/blob/main/2025/day4.py) |[Printing Department](https://adventofcode.com/2025/day/4) | 60.80 ms | 413.95 ms | 130 |
 | 05  | ⭐⭐ | [Day5](https://github.com/Landcruiser87/AdventOfCode/blob/main/2025/day5.py) |[Cafeteria](https://adventofcode.com/2025/day/5) | 38.81 ms | 48.01  ms | 101 |
+| 06  | ⭐⭐ | [Day6](https://github.com/Landcruiser87/AdventOfCode/blob/main/2025/day6.py) |[Trash Compactor](https://adventofcode.com/2025/day/6) | 31.17 ms |  ms |  77 |
 
-### 🎄 Setup 🎄
+### 🎄Setup🎄
 
 First export your cookie session with AOC with the google chrome developer tools  (Literally just go copy it)
 Then make a folder in your root titled `secret` and create a text file within called `cookie.txt`.  
 The .gitignore will ignore all text files / (and other formats) so it won't get loaded into github. 
 
-### 🎄 Requirements 🎄
+### 🎄Requirements🎄
 
 | Library | Version | Usage |
 |:---|:---:|---:| 
