@@ -7,54 +7,42 @@ from utils import support
 from utils.loc import linecount
 from utils.support import logger, console, log_time
 from dataclasses import dataclass
+from functools import reduce
+import operator
 
 #Set day/year global variables
-DAY:int = 5 #datetime.now().day
+DAY:int = 6 #datetime.now().day
 YEAR:int = 2025 #datetime.now().year
 
 @dataclass
-class Database():
-    fresh      :int   = 0
-    ing_rng    :list  = None
-    ingredients:list  = None
-    def load_data(self, dataset):
-        idx = dataset.index("")
-        temp = [x.split("-") for x in dataset[:idx]]
-        self.ing_rng = [range(int(x[0]), int(x[1]) + 1) for x in temp]
-        self.ingredients = list(map(int, dataset[idx + 1:]))
+class CephMath:
+    operations:list = None
+    problems  :list = None
+    def load_data(self, mathlete:list):
+        self.operations = mathlete.pop()
+        self.operations = self.operations.split()
+        self.problems = [list(map(int, x.split())) for x in mathlete]
 
-    def spoilage(self):
-        for ingredient in self.ingredients:
-            for rng in self.ing_rng:
-                if ingredient in rng:
-                    self.fresh += 1
-                    break
-        return self.fresh
+    def do_maths(self)->list:
+        results, maths = [], 0
+        for idx, operation in enumerate(self.operations):
+            maths = [self.problems[x][idx] for x in range(len(self.problems))]
+            match operation:
+                case "*":
+                    results.append(reduce(operator.mul, maths))
+                case "+":
+                    results.append(reduce(operator.add, maths))
+        return results
     
-    def total(self):
-        sorted_rngs = sorted(self.ing_rng, key=lambda x:x.start)
-        merged = []
-        merged.append(sorted_rngs[0])
-        for rng in sorted_rngs[1:]:
-            start, _ = rng.start, rng.stop
-            if merged[-1].start <= start <= merged[-1].stop:
-                merged[-1] = range(merged[-1].start, max(merged[-1].stop, rng.stop))
-                # logger.info(f"{merged[-1]}")
-            else:
-                merged.append(rng)
-                # logger.info(f"{rng}")
-
-        return sum([len(rn) for rn in merged])
-
 def problem_solver(dataset:list, part:int)->int:
-    db = Database()
-    db.load_data(dataset)
+    ceph = CephMath()
+    ceph.load_data(dataset)
     if part == 1:
-        fresh = db.spoilage()
+        problems = ceph.do_maths()
+        return sum(problems)
+    
     elif part == 2:
-        del db.ingredients
-        fresh = db.total()
-    return fresh
+        pass
 
 @log_time
 def part_A():
@@ -69,7 +57,7 @@ def part_A():
     #Solve puzzle w/testcase
     testcase = problem_solver(testdata, 1)
     #Assert testcase
-    assert testcase == 3, f"Test case A failed returned:{testcase}"
+    assert testcase == 4277556, f"Test case A failed returned:{testcase}"
     logger.info(f"Test case passed for part A")
     #Solve puzzle with full dataset
     answerA = problem_solver(data, 1)
@@ -107,13 +95,13 @@ def main():
     # support.submit_answer(DAY, YEAR, 1, resultA)
 
     #Solve part B
-    resultB = part_B()
-    fails = []
-    if resultB in fails:
-        logger.warning(f"Answer already submitted\nAnswer: {resultB}")
-        exit()
-    else:
-        logger.info(f"part B possible solution: \n{resultB}\n")
+    # resultB = part_B()
+    # fails = []
+    # if resultB in fails:
+    #     logger.warning(f"Answer already submitted\nAnswer: {resultB}")
+    #     exit()
+    # else:
+    #     logger.info(f"part B possible solution: \n{resultB}\n")
     # support.submit_answer(DAY, YEAR, 2, resultB)
 
     #Recurse lines of code
