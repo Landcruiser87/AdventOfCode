@@ -23,10 +23,16 @@ class CephMath:
         self.operations = self.operations.split()
         self.problems = [list(map(int, x.split())) for x in mathlete]
 
-    def do_maths(self)->list:
+    def do_maths(self, part:int) -> list:
         results, maths = [], 0
         for idx, operation in enumerate(self.operations):
             maths = [self.problems[x][idx] for x in range(len(self.problems))]
+            if part == 2:
+                maths = list(map(str, maths))
+                maxm = max([len(x) for x in maths])
+                for sizem in range(maxm):
+                    maths
+
             match operation:
                 case "*":
                     results.append(reduce(operator.mul, maths))
@@ -38,11 +44,12 @@ def problem_solver(dataset:list, part:int)->int:
     ceph = CephMath()
     ceph.load_data(dataset)
     if part == 1:
-        problems = ceph.do_maths()
+        problems = ceph.do_maths(part)
         return sum(problems)
     
     elif part == 2:
-        pass
+        problems = ceph.do_maths(part)
+        return sum(problems)
 
 @log_time
 def part_A():
@@ -75,7 +82,7 @@ def part_B():
     #Solve puzzle w/testcase
     testcase = problem_solver(testdata, 2)
     #Assert testcase
-    assert testcase == 14, f"Test case B failed returned:{testcase}"
+    assert testcase == 3263827, f"Test case B failed returned:{testcase}"
     logger.info(f"Test case: {testcase} passed for part B")
     #Solve puzzle with full dataset
     answerB = problem_solver(data, 2)
@@ -95,13 +102,13 @@ def main():
     # support.submit_answer(DAY, YEAR, 1, resultA)
 
     #Solve part B
-    # resultB = part_B()
-    # fails = []
-    # if resultB in fails:
-    #     logger.warning(f"Answer already submitted\nAnswer: {resultB}")
-    #     exit()
-    # else:
-    #     logger.info(f"part B possible solution: \n{resultB}\n")
+    resultB = part_B()
+    fails = []
+    if resultB in fails:
+        logger.warning(f"Answer already submitted\nAnswer: {resultB}")
+        exit()
+    else:
+        logger.info(f"part B possible solution: \n{resultB}\n")
     # support.submit_answer(DAY, YEAR, 2, resultB)
 
     #Recurse lines of code
