@@ -8,7 +8,8 @@ from utils.loc import linecount
 from utils.support import logger, console, log_time
 from dataclasses import dataclass
 from functools import reduce
-import operator
+from operator import add, mul
+from itertools import zip_longest, chain
 
 #Set day/year global variables
 DAY:int = 6 #datetime.now().day
@@ -16,38 +17,53 @@ YEAR:int = 2025 #datetime.now().year
 
 @dataclass
 class CephMath:
+    full      :list = None
     operations:list = None
+    ops_pos   :list = None
     problems  :list = None
-    def load_data(self, mathlete:list):
-        self.operations = mathlete.pop()
-        self.operations = self.operations.split()
-        self.problems = [list(map(int, x.split())) for x in mathlete]
+    def load_data(self, dataset:list, part:int):
+        self.operations = dataset.pop()
+        if part == 1:
+            self.operations = self.operations.split()
+            self.problems = [list(map(int, x.split())) for x in dataset]
+        elif part == 2:
+            self.operations = self.operations[::-1]
+            self.ops_pos = [idx for idx, x in enumerate(self.operations) if x != " "]
+            self.full = "\n".join(dataset)
+            self.problems = ["".join(x) for x in zip_longest(*self.full.split("\n\n"), fillvalue=" ")]
+            temp = [ ]
+            for prob in self.problems:
+                for x in self.ops_pos:
+                    temp.append[:-x]
 
     def do_maths(self, part:int) -> list:
         results, maths = [], 0
         for idx, operation in enumerate(self.operations):
             maths = [self.problems[x][idx] for x in range(len(self.problems))]
             if part == 2:
-                maths = list(map(str, maths))
                 maxm = max([len(x) for x in maths])
-                for sizem in range(maxm):
-                    maths
+                for id, math in enumerate(maths):
+                    length = len(math)
+                    while length < maxm:
+                        maths[id] = "0" + maths[id]
+                        length += 1
 
             match operation:
                 case "*":
-                    results.append(reduce(operator.mul, maths))
+                    results.append(reduce(mul, maths))
                 case "+":
-                    results.append(reduce(operator.add, maths))
+                    results.append(reduce(add, maths))
         return results
-    
+
 def problem_solver(dataset:list, part:int)->int:
     ceph = CephMath()
-    ceph.load_data(dataset)
     if part == 1:
+        ceph.load_data(dataset, part)
         problems = ceph.do_maths(part)
         return sum(problems)
-    
+   
     elif part == 2:
+        ceph.load_data(dataset, part)
         problems = ceph.do_maths(part)
         return sum(problems)
 
@@ -57,7 +73,7 @@ def part_A():
     #to check your cache status when you need cache nooooow call J.... G.... WENTWORTH. 
     support._877_cache_now()
     #Pull puzzle description and testdata
-    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, False, -1)
+    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, False, -1, strip=True)
     console.log(f"{tellstory}")
     logger.info("testdata table")
     [logger.info(row) for row in testdata]
@@ -76,7 +92,7 @@ def part_B():
     #Check cache status
     support._877_cache_now()
     #Pull puzzle description and testdata
-    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2, False, -2)
+    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2, False, -2, strip=False)
     console.log(f"{tellstory}")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
@@ -90,7 +106,7 @@ def part_B():
 
 def main():
     global data
-    data = support.pull_inputdata(DAY, YEAR)
+    data = support.pull_inputdata(DAY, YEAR, strip=False)
     # Solve part A
     resultA = part_A()
     fails = []
@@ -130,7 +146,7 @@ if __name__ == "__main__":
 # I guess just a flattened list of the combined ranges.  Which also seems too easy.  huh
 # there it is!  MemoryError.  Need a better way to turn the range into a list.  I can't 
 # store all these huge numbers...  
-# Well first too i'm seeing I need to merge the ranges. 
+# Well first too i'm seeing I need to merge the ranges. s
 # Not sure how to do that. 
     
 #New game plan. 

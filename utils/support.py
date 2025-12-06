@@ -139,7 +139,7 @@ def _877_cache_now(
         logger.critical("cache cleared")
 
 @cache
-def pull_puzzle(day:int, year:int, part:int, samplet:bool=True, tindex:int=None)-> str:
+def pull_puzzle(day:int, year:int, part:int, samplet:bool=True, tindex:int=None, strip:bool=True)-> str:
     """This function pulls down the puzzle description with requests
 
     Args:
@@ -185,11 +185,15 @@ def pull_puzzle(day:int, year:int, part:int, samplet:bool=True, tindex:int=None)
 
     if sampledata:
         #process the sample data
-        sampledata = process_input(sampledata, samplet) #Include extra False to not split
+        sampledata = process_input(
+            textdata=sampledata, 
+            testd=samplet, 
+            strip=strip
+        ) #Include extra False to not split
     return storytime, sampledata
 
 @cache
-def pull_inputdata(day:int, year:int)->str:
+def pull_inputdata(day:int, year:int, strip:bool=True)->str:
     """This function retrieves the full dataset for evaluation.
 
     Args:
@@ -216,12 +220,12 @@ def pull_inputdata(day:int, year:int)->str:
     else:
         logger.info(f"day {day} input data retrieved")
         #Process the data
-        data = process_input(response.text, False) #Include extra False to not split
+        data = process_input(textdata=response.text, testd=False, strip=strip) #Include extra False to not split
         logger.info(f"Shape of dataset (row,col)-> {len(data), len(data[0])}")
         return data
 
 #############################  Data Transform Funcs  ########################
-def process_input(textdata:str, testd:bool, split:bool=True)->list:
+def process_input(textdata:str, testd:bool, split:bool=True, strip:bool=True)->list:
     """Function to process input datasets.  Both testcase and full datasets
 
     Args:
@@ -231,11 +235,15 @@ def process_input(textdata:str, testd:bool, split:bool=True)->list:
     Returns:
         arr (list): List of the dataset
     """    
-    if split:
+    if split & strip:
         data = textdata.splitlines()
         arr = [x.strip() if x != "" else "" for x in data]
-    else:
+    elif strip:
         arr = [x.strip() if x != "" else "" for x in textdata]
+    elif split:
+        arr = textdata.splitlines()
+    else:
+        arr = [x if x != "" else "" for x in textdata]
     if testd:
         console.log("\nSample Data:\n")
         [console.log(f"{td}") for td in arr]
