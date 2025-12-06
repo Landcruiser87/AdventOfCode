@@ -9,7 +9,7 @@ from utils.support import logger, console, log_time
 from dataclasses import dataclass
 from functools import reduce
 from operator import add, mul
-from itertools import zip_longest, chain
+from itertools import zip_longest
 
 #Set day/year global variables
 DAY:int = 6 #datetime.now().day
@@ -30,24 +30,13 @@ class CephMath:
             self.operations = self.operations[::-1]
             self.ops_pos = [idx for idx, x in enumerate(self.operations) if x != " "]
             self.full = "\n".join(dataset)
-            self.problems = ["".join(x) for x in zip_longest(*self.full.split("\n\n"), fillvalue=" ")]
-            temp = [ ]
-            for prob in self.problems:
-                for x in self.ops_pos:
-                    temp.append[:-x]
-
-    def do_maths(self, part:int) -> list:
+            self.problems = ["".join(x) for x in zip_longest(*self.full.split("\n"), fillvalue=" ")]
+            self.problems = [int(x) for x in self.problems if x != "   "]
+    
+    def do_maths(self) -> list:
         results, maths = [], 0
         for idx, operation in enumerate(self.operations):
             maths = [self.problems[x][idx] for x in range(len(self.problems))]
-            if part == 2:
-                maxm = max([len(x) for x in maths])
-                for id, math in enumerate(maths):
-                    length = len(math)
-                    while length < maxm:
-                        maths[id] = "0" + maths[id]
-                        length += 1
-
             match operation:
                 case "*":
                     results.append(reduce(mul, maths))
@@ -59,12 +48,12 @@ def problem_solver(dataset:list, part:int)->int:
     ceph = CephMath()
     if part == 1:
         ceph.load_data(dataset, part)
-        problems = ceph.do_maths(part)
+        problems = ceph.do_maths()
         return sum(problems)
    
     elif part == 2:
         ceph.load_data(dataset, part)
-        problems = ceph.do_maths(part)
+        problems = ceph.do_maths()
         return sum(problems)
 
 @log_time
