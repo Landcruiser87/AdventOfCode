@@ -7,9 +7,12 @@ from utils import support
 from utils.loc import linecount
 from utils.support import logger, console, log_time
 from dataclasses import dataclass
+from functools import reduce
+from operator import add, mul
+from itertools import zip_longest, groupby
 
 #Set day/year global variables
-DAY:int = 1 #datetime.now().day
+DAY:int = 7 #datetime.now().day
 YEAR:int = 2025 #datetime.now().year
 
 def problem_solver(dataset:list, part:int)->int:
