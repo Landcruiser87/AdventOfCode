@@ -34,7 +34,6 @@ class CephMath:
                     continue
                 else:
                     self.problems[idx] = int(prob)
-            #turn data into list of lists.  currently one beeeeg list
             self.problems = [list(g) for k, g in groupby(self.problems, key=lambda x: isinstance(x,str)) if not k]
 
     def do_maths(self, part:int) -> list:
