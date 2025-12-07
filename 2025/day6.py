@@ -9,7 +9,7 @@ from utils.support import logger, console, log_time
 from dataclasses import dataclass
 from functools import reduce
 from operator import add, mul
-from itertools import zip_longest
+from itertools import zip_longest, groupby
 
 #Set day/year global variables
 DAY:int = 6 #datetime.now().day
@@ -19,24 +19,31 @@ YEAR:int = 2025 #datetime.now().year
 class CephMath:
     full      :list = None
     operations:list = None
-    ops_pos   :list = None
     problems  :list = None
     def load_data(self, dataset:list, part:int):
-        self.operations = dataset.pop()
+        self.operations = dataset[-1]
         if part == 1:
             self.operations = self.operations.split()
-            self.problems = [list(map(int, x.split())) for x in dataset]
+            self.problems = [list(map(int, x.split())) for x in dataset[:-1]]
         elif part == 2:
-            self.operations = self.operations[::-1]
-            self.ops_pos = [idx for idx, x in enumerate(self.operations) if x != " "]
-            self.full = "\n".join(dataset)
+            self.operations = self.operations.split()
+            self.full = "\n".join(dataset[:-1])
             self.problems = ["".join(x) for x in zip_longest(*self.full.split("\n"), fillvalue=" ")]
-            self.problems = [int(x) for x in self.problems if x != "   "]
-    
-    def do_maths(self) -> list:
+            for idx, prob in enumerate(self.problems):
+                if prob.isspace():
+                    continue
+                else:
+                    self.problems[idx] = int(prob)
+            #turn data into list of lists.  currently one beeeeg list
+            self.problems = [list(g) for k, g in groupby(self.problems, key=lambda x: isinstance(x,str)) if not k]
+
+    def do_maths(self, part:int) -> list:
         results, maths = [], 0
         for idx, operation in enumerate(self.operations):
-            maths = [self.problems[x][idx] for x in range(len(self.problems))]
+            if part == 1:
+                maths = [self.problems[x][idx] for x in range(len(self.problems))]
+            else:
+                maths = self.problems[idx]
             match operation:
                 case "*":
                     results.append(reduce(mul, maths))
@@ -48,12 +55,12 @@ def problem_solver(dataset:list, part:int)->int:
     ceph = CephMath()
     if part == 1:
         ceph.load_data(dataset, part)
-        problems = ceph.do_maths()
+        problems = ceph.do_maths(part)
         return sum(problems)
    
     elif part == 2:
         ceph.load_data(dataset, part)
-        problems = ceph.do_maths()
+        problems = ceph.do_maths(part)
         return sum(problems)
 
 @log_time
@@ -121,7 +128,7 @@ def main():
     logger.info(f"Lines of code: {LOC}")
 
     #Delete the cache after submission
-    # support._877_cache_now(".cache", True)
+    support._877_cache_now(".cache", True)
     
 if __name__ == "__main__":
     main()
