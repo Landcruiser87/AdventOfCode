@@ -7,18 +7,45 @@ from utils import support
 from utils.loc import linecount
 from utils.support import logger, console, log_time
 from dataclasses import dataclass
-from functools import reduce
-from operator import add, mul
-from itertools import zip_longest, groupby
+from collections import deque
 
 #Set day/year global variables
 DAY:int = 7 #datetime.now().day
 YEAR:int = 2025 #datetime.now().year
 
+@dataclass
+class BeamSplit():
+    treemap  :list  = None
+    start    :tuple = None
+    splitters:set   = None
+    height   :int   = None
+    width    :int   = None
+
+    def find_beams(self) -> None:
+        self.splitters = set()
+        self.height = len(self.treemap)
+        self.width = len(self.treemap[0])
+        for x in range(self.height):
+            for y in range(self.width):
+                if self.treemap[x][y] == "S":
+                    self.start == set((x, y))
+                    return
+                    
+    def split_beams(self):
+        start = self.start
+        visited:set = set()
+        visited.add(start)
+        splitting:bool = True
+        while splitting:
+            pass
+        
+
 def problem_solver(dataset:list, part:int)->int:
+    beam = BeamSplit(treemap=dataset)
+    beam.find_beams()
     if part == 1:
-        pass
-   
+        splits = beam.split_beams()
+        return splits
     elif part == 2:
         pass
 
@@ -28,14 +55,14 @@ def part_A():
     #to check your cache status when you need cache nooooow call J.... G.... WENTWORTH. 
     support._877_cache_now()
     #Pull puzzle description and testdata
-    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, False, -1, strip=True)
+    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 1, False, -6)
     console.log(f"{tellstory}")
     logger.info("testdata table")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
     testcase = problem_solver(testdata, 1)
     #Assert testcase
-    assert testcase == 4277556, f"Test case A failed returned:{testcase}"
+    assert testcase == 21, f"Test case A failed returned:{testcase}"
     logger.info(f"Test case passed for part A")
     #Solve puzzle with full dataset
     answerA = problem_solver(data, 1)
@@ -47,7 +74,7 @@ def part_B():
     #Check cache status
     support._877_cache_now()
     #Pull puzzle description and testdata
-    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2, False, -2, strip=False)
+    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2, False, -2)
     console.log(f"{tellstory}")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
