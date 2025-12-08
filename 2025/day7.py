@@ -7,7 +7,7 @@ from utils import support
 from utils.loc import linecount
 from utils.support import logger, console, log_time
 from dataclasses import dataclass
-from collections import deque
+from collections import defaultdict
 
 #Set day/year global variables
 DAY:int = 7 #datetime.now().day
@@ -15,34 +15,33 @@ YEAR:int = 2025 #datetime.now().year
 
 @dataclass
 class BeamSplit():
-    treemap  :list  = None
     start    :tuple = None
-    splitters:set   = None
     height   :int   = None
     width    :int   = None
+    treemap  :list  = None
+    treedict :defaultdict = None
 
-    def find_beams(self) -> None:
-        self.splitters = set()
+    def load_map(self) -> None:
         self.height = len(self.treemap)
         self.width = len(self.treemap[0])
-        for x in range(self.height):
-            for y in range(self.width):
-                if self.treemap[x][y] == "S":
-                    self.start == set((x, y))
-                    return
-                    
-    def split_beams(self):
-        start = self.start
-        visited:set = set()
-        visited.add(start)
-        splitting:bool = True
-        while splitting:
-            pass
-        
 
+    def split_beams(self):
+        beams = {self.treemap[0].index("S")}
+        count = 0
+        for row in self.treemap[1:]:
+            temp = set()
+            for beam in beams:
+                if row[beam] == ".":
+                    temp.add(beam)
+                else:
+                    count += 1
+                    temp = temp.union([beam - 1, beam + 1])
+            beams = temp
+        return count
+    
 def problem_solver(dataset:list, part:int)->int:
     beam = BeamSplit(treemap=dataset)
-    beam.find_beams()
+    beam.load_map()
     if part == 1:
         splits = beam.split_beams()
         return splits
@@ -97,7 +96,7 @@ def main():
         exit()
     else:
         logger.info(f"part A possible solution: \n{resultA}\n")
-    # support.submit_answer(DAY, YEAR, 1, resultA)
+    support.submit_answer(DAY, YEAR, 1, resultA)
 
     #Solve part B
     # resultB = part_B()
