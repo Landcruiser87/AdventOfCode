@@ -14,7 +14,7 @@ These are my solutions for the [Advent of Code 2025](https://adventofcode.com/20
 | 04  | ⭐⭐ | [Day4](https://github.com/Landcruiser87/AdventOfCode/blob/main/2025/day4.py) |[Printing Department](https://adventofcode.com/2025/day/4) | 60.80 ms | 413.95 ms | 130 |
 | 05  | ⭐⭐ | [Day5](https://github.com/Landcruiser87/AdventOfCode/blob/main/2025/day5.py) |[Cafeteria](https://adventofcode.com/2025/day/5) | 38.81 ms | 48.01  ms | 101 |
 | 06  | ⭐⭐ | [Day6](https://github.com/Landcruiser87/AdventOfCode/blob/main/2025/day6.py) |[Trash Compactor](https://adventofcode.com/2025/day/6) | 31.17 ms | 37.68 ms |  103 |
-| 07  | ⭐ | [Day7](https://github.com/Landcruiser87/AdventOfCode/blob/main/2025/day7.py) |[Laboratories](https://adventofcode.com/2025/day/7) | 43.32 ms | ms | 82 |
+| 07  | ⭐ | [Day7](https://github.com/Landcruiser87/AdventOfCode/blob/main/2025/day7.py) |[Laboratories](https://adventofcode.com/2025/day/7) | 43.32 ms | 41.63 ms | 95 |
 
 ### 🎄Setup🎄
 

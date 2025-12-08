@@ -46,12 +46,13 @@ class BeamSplit():
 
 def problem_solver(dataset:list, part:int)->int:
     beam = BeamSplit(treemap=dataset)
+    beam.start = beam.treemap[0].index("S")
     if part == 1:
-        beams = {beam.treemap[0].index("S")}
+        beams = {beam.start}
         splits = beam.split_beams(beams)
         return splits
     elif part == 2:
-        beams = {beam.treemap[0].index("S"):1}
+        beams = {beam.start:1}
         paths = beam.going_quantum(beams)
         return paths
     
@@ -120,7 +121,7 @@ def main():
     logger.info(f"Lines of code: {LOC}")
 
     #Delete the cache after submission
-    # support._877_cache_now(".cache", True)
+    support._877_cache_now(".cache", True)
     
 if __name__ == "__main__":
     main()
