@@ -17,8 +17,6 @@ YEAR:int = 2025 #datetime.now().year
 class BeamSplit():
     start    :tuple = None
     treemap  :list  = None
-    treedict :defaultdict = None
-
     def split_beams(self, beams:set):
         count = 0
         for row in self.treemap[1:]:

@@ -7,7 +7,6 @@ from utils import support
 from utils.loc import linecount
 from utils.support import logger, console, log_time
 from dataclasses import dataclass
-from collections import defaultdict
 
 #Set day/year global variables
 DAY:int = 8 #datetime.now().day
