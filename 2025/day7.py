@@ -16,17 +16,10 @@ YEAR:int = 2025 #datetime.now().year
 @dataclass
 class BeamSplit():
     start    :tuple = None
-    height   :int   = None
-    width    :int   = None
     treemap  :list  = None
     treedict :defaultdict = None
 
-    def load_map(self) -> None:
-        self.height = len(self.treemap)
-        self.width = len(self.treemap[0])
-
-    def split_beams(self):
-        beams = {self.treemap[0].index("S")}
+    def split_beams(self, beams:set):
         count = 0
         for row in self.treemap[1:]:
             temp = set()
@@ -38,16 +31,30 @@ class BeamSplit():
                     temp = temp.union([beam - 1, beam + 1])
             beams = temp
         return count
-    
+ 
+    def going_quantum(self, beams:defaultdict):
+        for row in self.treemap[1:]:
+            temp = defaultdict(int)
+            for k, beam in beams.items():
+                if row[k] == ".":
+                    temp[k] += beam
+                else:
+                    temp[k - 1] += beam
+                    temp[k + 1] += beam
+            beams = temp
+        return sum(beams.values())
+
 def problem_solver(dataset:list, part:int)->int:
     beam = BeamSplit(treemap=dataset)
-    beam.load_map()
     if part == 1:
-        splits = beam.split_beams()
+        beams = {beam.treemap[0].index("S")}
+        splits = beam.split_beams(beams)
         return splits
     elif part == 2:
-        pass
-
+        beams = {beam.treemap[0].index("S"):1}
+        paths = beam.going_quantum(beams)
+        return paths
+    
 @log_time
 def part_A():
     logger.info("Solving part A")
@@ -73,13 +80,13 @@ def part_B():
     #Check cache status
     support._877_cache_now()
     #Pull puzzle description and testdata
-    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2, False, -2)
+    tellstory, testdata = support.pull_puzzle(DAY, YEAR, 2, False, -9)
     console.log(f"{tellstory}")
     [logger.info(row) for row in testdata]
     #Solve puzzle w/testcase
     testcase = problem_solver(testdata, 2)
     #Assert testcase
-    assert testcase == 3263827, f"Test case B failed returned:{testcase}"
+    assert testcase == 40, f"Test case B failed returned:{testcase}"
     logger.info(f"Test case: {testcase} passed for part B")
     #Solve puzzle with full dataset
     answerB = problem_solver(data, 2)
@@ -96,16 +103,16 @@ def main():
         exit()
     else:
         logger.info(f"part A possible solution: \n{resultA}\n")
-    support.submit_answer(DAY, YEAR, 1, resultA)
+    # support.submit_answer(DAY, YEAR, 1, resultA)
 
     #Solve part B
-    # resultB = part_B()
-    # fails = []
-    # if resultB in fails:
-    #     logger.warning(f"Answer already submitted\nAnswer: {resultB}")
-    #     exit()
-    # else:
-    #     logger.info(f"part B possible solution: \n{resultB}\n")
+    resultB = part_B()
+    fails = []
+    if resultB in fails:
+        logger.warning(f"Answer already submitted\nAnswer: {resultB}")
+        exit()
+    else:
+        logger.info(f"part B possible solution: \n{resultB}\n")
     # support.submit_answer(DAY, YEAR, 2, resultB)
 
     #Recurse lines of code
