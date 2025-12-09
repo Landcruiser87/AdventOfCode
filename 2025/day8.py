@@ -7,15 +7,58 @@ from utils import support
 from utils.loc import linecount
 from utils.support import logger, console, log_time
 from dataclasses import dataclass
+from itertools import combinations
+from collections import deque, defaultdict
+import math
 
 #Set day/year global variables
 DAY:int = 8 #datetime.now().day
 YEAR:int = 2025 #datetime.now().year
 
+@dataclass
+class JunctionBox():
+    points:list = None
+    def format(self):
+        self.points = [tuple(map(int, x.split(","))) for x in self.points]
+
+    def pythagoras(self, start:tuple, end:tuple):
+        x1, y1, z1 = start
+        x2, y2, z2 = end
+                          #dx            #dy            #dz
+        return math.sqrt((x2 - x1)**2 + (y2 - y1)**2 + (z2 - z1)**2)
+    
+    def connect(self):
+        results :list = []
+        connections:list[set] = []
+        box: int = 20
+        boxpile = deque(combinations(self.points, 2))
+        while boxpile:
+            p1, p2 = boxpile.popleft()
+            dist = self.pythagoras(p1, p2)
+            results.append((p1, p2, dist))
+        results = sorted(results, key=lambda x:x[2])
+        for circuit in range(box):
+            connections.add(circuit)
+            for group in connections:
+                p1, p2, _ = results.pop(0)
+                if not p1 in connections[circuit]:
+                    connections.add(p1)
+                elif not p2 in connections[circuit]:
+                    connections.add(p2)
+                else:
+                    break
+
+            box -= 1
+
+        logger.info()
+        return ""
 
 def problem_solver(dataset:list, part:int)->int:
+    boxes = JunctionBox(points=dataset)
+    boxes.format()
     if part == 1:
-        return ""
+        top3 = boxes.connect()
+        return top3
     elif part == 2:
         return ""
     
