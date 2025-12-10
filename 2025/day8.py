@@ -28,27 +28,21 @@ class JunctionBox():
         return math.sqrt((x2 - x1)**2 + (y2 - y1)**2 + (z2 - z1)**2)
     
     def connect(self):
+        boxlimit: int = 20
         results :list = []
-        connections:list[set] = []
-        box: int = 20
+        connections:defaultdict = defaultdict(set)
         boxpile = deque(combinations(self.points, 2))
         while boxpile:
             p1, p2 = boxpile.popleft()
             dist = self.pythagoras(p1, p2)
             results.append((p1, p2, dist))
         results = sorted(results, key=lambda x:x[2])
-        for circuit in range(box):
-            connections.add(circuit)
-            for group in connections:
-                p1, p2, _ = results.pop(0)
-                if not p1 in connections[circuit]:
-                    connections.add(p1)
-                elif not p2 in connections[circuit]:
-                    connections.add(p2)
-                else:
-                    break
-
-            box -= 1
+        connections = {box:{} for box in range(boxlimit)}
+        for i, (p1, p2, _) in enumerate(results):
+            if p1 not in connections and p2 not in connections:
+                pass
+            elif "pw" in connections:
+                pass
 
         logger.info()
         return ""
